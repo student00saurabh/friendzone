@@ -3,7 +3,7 @@
   	<div class="col-12 col-md-6 ">
     	<div class="card">
       		<% if(post.owner){ %>
-				<p class="post-owner-card"><img src="<%= post.owner.image.url %>" alt="profile" class="profile-image"><%= post.owner.username %></p>
+				<a class="post-owner-card" href="/profile/<%= post.owner._id %>"><img src="<%= post.owner.image.url %>" alt="profile" class="profile-image"><%= post.owner.username %></a>
 			<% } %>
 			<img src="<%= post.image.url %>" class="card-img-top show-img" alt="listing_image">
   			<div class="card-body">

@@ -12,9 +12,9 @@
 					<p class="card-text"><b>Gender: </b><%= profile.gender %></p>
 					<p class="card-text"><b>Age: </b><%= profile.age %></p>
 					<p class="card-text"><b>About: </b><%= profile.about %></p>
-					<% if(currUser && (profile._id != currUser)){%>
+					<% if(!profile._id.equals(currUser._id)){%>
 						<form action="/inbox/<%= profile._id %>" class="like-unlike-form mb-3" method="get">
-							<button type="submit">Message to <%= profile.username %></button>
+							<button type="submit" class="btn btn-sm add-btn">Message to <%= profile.username %></button>
 							</form>
 					<% } %>
 				</div>

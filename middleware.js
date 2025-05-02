@@ -7,7 +7,7 @@ const Like = require("./models/likes.js");
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.session.redirectUrl = req.originalUrl;
-    req.flash("error", "you must be logged in to creat Post!");
+    req.flash("error", "you must be logged in to use friendzone!");
     return res.redirect("/login");
   }
   next();
