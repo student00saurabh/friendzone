@@ -1,0 +1,66 @@
+<% layout("/layouts/boilerplate") -%>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-12">
+            <div class="card shadow-lg rounded-4 p-4">
+				<div class="profile-div">
+					<img src="<%= profile.image.url %>" class="my-image" alt="">
+				</div>
+				<div class="card-body">
+					<p class="card-text"><b>Name: </b><%= profile.username %></p>
+					<p class="card-text"><b>Email: </b><%= profile.email %></p>
+					<p class="card-text"><b>Gender: </b><%= profile.gender %></p>
+					<p class="card-text"><b>Age: </b><%= profile.age %></p>
+					<p class="card-text"><b>About: </b><%= profile.about %></p>
+					<% if(currUser && (profile._id != currUser)){%>
+						<form action="/inbox/<%= profile._id %>" class="like-unlike-form mb-3" method="get">
+							<button type="submit">Message to <%= profile.username %></button>
+							</form>
+					<% } %>
+				</div>
+			</div>
+
+			<% for(post of posts){ %>
+				<div>
+					<div class="card shadow-lg rounded-4 mt-3">
+						<a href="/posts/<%= post._id %>" class="posts-link">
+				  			<img src="<%= post.image.url %>" class="card-img-top card-img-post" alt="post_image" style="height: 20rem;">
+						</a>
+					<div class="card-body">
+						<p><b><%= post.description %></b></p>
+					
+						<%
+  							let likeUser = null;
+  							let alreadyLiked = post.likes.some((like) => {
+    							if (currUser && like.cliker == currUser._id) {
+      								likeUser = like; // store the like object
+      								return true;
+    							}
+    							return false;
+  							});
+						%>
+
+						<p>
+							<% if(currUser && (!alreadyLiked)){%>
+								<form action="/posts/<%= post._id %>/likes" class="like-unlike-form mb-3" method="post">
+									<button class="like-button" type="submit"><i class="fa-regular fa-heart" id="icon"></i></button>
+									<%= post.likes.length %>
+								</form>
+							<% } %>
+						
+							<% if(currUser && alreadyLiked ) { %>
+								<form action="/posts/<%= post._id %>/likes/<%= likeUser._id %>?_method=DELETE" class="like-unlike-form mb-3" method="post">
+									<button class="like-button" type="submit"><i class="fa-solid fa-heart unlike-heart"></i></button>
+									<%= post.likes.length %>
+								</form>
+							<% } %>
+						
+							&nbsp; &nbsp; 
+							<a href="/posts/<%= post._id%>" class="posts-link"><i class="fa-regular fa-comment"></i> Comments</a>
+						</p>
+					</div>
+	  			</div>
+			<% } %>
+		</div>
+	</div>
+</div>

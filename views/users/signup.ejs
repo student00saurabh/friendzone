@@ -1,0 +1,100 @@
+<% layout("/layouts/boilerplate") -%>
+
+<h1 class="col-12 col-md-6 offset-md-3">Create Account on Friend-Zone!</h1>
+
+<div class="row mt-3">
+  <div class="col-12 col-md-6 offset-md-3">
+    <div class="signup-form">
+        <form action="/signup" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+            <!-- username -->
+			<div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input
+                    type="text"
+					id="username"
+                    name="username"
+                    class="form-control"
+                    required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+				<!-- email -->
+				<div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                    type="email"
+					id="email"
+                    name="email"
+                    class="form-control"
+                    required>
+                </div>
+
+                <!-- gender -->
+                 <div class="mb-3">
+                    <label class="form-label">Gender</label><br>
+  
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" id="male" value="Male" required>
+                        <label class="form-check-label" for="male">Male</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" id="female" value="Female" required>
+                        <label class="form-check-label" for="female">Female</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" id="other" value="Other" required>
+                        <label class="form-check-label" for="other">Other</label>
+                    </div>
+                </div>
+
+                <!-- age -->
+                 <div class="mb-3">
+                <label for="age" class="form-label">Age</label>
+                <input
+                    type="number"
+					id="age"
+                    name="age"
+                    class="form-control"
+                    required>
+                </div>
+
+                <!-- about -->
+                 <div class="mb-3">
+                <label for="about" class="form-label">About</label>
+                <textarea
+                    type="text"
+					id="about"
+                    name="about"
+                    class="form-control"
+                    required></textarea>
+                </div>
+
+                <!-- image -->
+                 <div class="mb-3">
+                    <label for="image" class="form-label">Upload an Image</label>
+            		<input 
+                    type="file"
+                     name="image"
+                      class="form-control"
+                       required>
+				</div>
+
+				<!-- password -->
+				 <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input
+                    type="password"
+					id="password"
+                    name="password"
+                    class="form-control"
+                    required>
+                </div>
+				<button class="btn btn-success">Signup</button>
+            </form>
+             <p>You have an existing account!<a href="/login" class="posts-link"> <button class="btn btn-sm btn-outline-success" style="color: #fff !important">login</button></a></p>
+            </div>
+        </div>
+    </div>

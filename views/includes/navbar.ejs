@@ -1,0 +1,92 @@
+<style>
+  .btn-search{
+    background-color: #B44B9E;
+    color: #fff;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 25px;
+    transition-duration: 0.6s;
+    padding: 0 1rem 0 1rem !important;
+  }
+  .search-inp{
+    border-radius: 25px;
+    padding: 0.5rem 3rem 0.5rem 3rem;
+    font-size: 1rem;
+    margin-right: 10px;
+  }
+  .btn-search:hover{
+    background-color: #B44B9E;
+    color:  #4B9EB4;
+    border: 2px solid #fff;
+  }
+  .btn-search i{
+    display: inline;
+    margin-right: 0.5rem;
+  }
+</style>
+
+<nav class="navbar navbar-expand-md border-bottom sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/posts"><i class="fa-solid fa-spa"></i></a>
+
+    <!-- Toggler for Offcanvas -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+      aria-controls="offcanvasNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Offcanvas Sidebar -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+
+      <div class="offcanvas-body">
+          <div class="navbar-nav mt-2">
+            <a class="nav-link" href="/posts"><i class="fa-solid fa-house"></i> Home</a>
+          </div>
+          <div class="navbar-nav mt-2">
+              <a class="nav-link" href="/posts/new"><i class="fa-solid fa-square-plus"></i> Post</a>
+          </div>
+           <% if(!currUser) { %>
+          <div class="navbar-nav mt-2">
+              <a class="nav-link" href="/signup"> Signup</a>
+          </div>
+          <div class="navbar-nav mt-2">
+              <a class="nav-link" href="/login"> Login</a>
+          </div>
+          <% } %>
+
+           <% if(currUser) { %>
+          <div class="navbar-nav mt-2 profile-image-div">
+              <a class="nav-link" href="/profile/<%= currUser._id %>">
+                <img src="<%= currUser.image.url %>" alt="profile" class="profile-image">
+                 Profile</a>
+          </div>
+          <div class="navbar-nav mt-2">
+              <a class="nav-link" href="/logout"> Logout</a>
+          </div>
+          <div class="navbar-nav mt-2 mb-2">
+              <a class="nav-link" href="/inbox"><i class="fa-solid fa-message"></i> Messages</a>
+          </div>
+
+          <% } %>
+
+        <!-- Search Form -->
+         <div class="navbar-nav ms-auto">
+          <form class="d-flex" role="search" action="/listings" method="GET">
+            <input class="form-control me-2 search-inp" type="search" placeholder="Search you friend" aria-label="Search" name="q">
+            <button class="btn btn-search" type="submit">
+              <i class="fa-solid fa-magnifying-glass"></i> Search
+            </button>
+          </form>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</nav>
