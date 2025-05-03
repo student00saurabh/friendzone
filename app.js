@@ -94,7 +94,7 @@ app.use(async (req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  if (!currUser) {
+  if (!res.locals.currUser) {
     res.render("others/home.ejs");
   } else {
     res.redirect("/posts");

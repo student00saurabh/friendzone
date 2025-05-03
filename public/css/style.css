@@ -228,6 +228,9 @@ body{
 }
 .post-owner-card{
 	padding: 3px 10px 0px 10px !important;
+	text-decoration: none;
+	color: #B44B9E;
+	font-weight: 800;
 }
 .like-unlike-form{
 	display: inline-block;
