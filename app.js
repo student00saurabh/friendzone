@@ -15,6 +15,7 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/users.js");
+const Message = require("./models/messages.js");
 
 const postsRouter = require("./routes/posts.js");
 const commentsRouter = require("./routes/comments.js");
@@ -85,8 +86,15 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(async (req, res, next) => {
+  const receivedMessages = await Message.find({ receiver: req.user });
+  const unSeen = receivedMessages.filter((msg) => !msg.isSeen);
+  res.locals.isSeen = unSeen.length;
+  next();
+});
+
 app.get("/", (req, res) => {
-  res.redirect("/posts");
+  res.render("others/home.ejs");
 });
 
 app.use("/posts", postsRouter);

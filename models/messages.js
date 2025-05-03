@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const messageSchema = new Schema({
-  content: String,
+  msg: String,
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -14,6 +14,10 @@ const messageSchema = new Schema({
   receiver: {
     type: Schema.Types.ObjectId,
     ref: "User",
+  },
+  isSeen: {
+    type: Boolean,
+    default: false,
   },
 });
 

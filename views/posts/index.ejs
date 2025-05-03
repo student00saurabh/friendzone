@@ -40,6 +40,9 @@
 						
 						&nbsp; &nbsp; 
 						<a href="/posts/<%= post._id%>" class="posts-link"><i class="fa-regular fa-comment"></i> Comments</a>
+						<span class="time-date">
+							<%= new Date(post.createdAt).toLocaleString() %>
+						</span>
 					</p>
 				</div>
 	  		</div>

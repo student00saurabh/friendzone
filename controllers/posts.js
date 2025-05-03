@@ -5,8 +5,16 @@ module.exports.index = async (req, res) => {
   let search = req.query.q;
   if (search && search != undefined) {
     const allPosts = await Post.find({
-      title: { $regex: search, $options: "i" },
-    });
+      description: { $regex: search, $options: "i" },
+    })
+      .populate("owner")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "author",
+        },
+      })
+      .populate("likes");
     res.render("./posts/index.ejs", { allPosts });
   } else {
     const allPosts = await Post.find({})
@@ -48,7 +56,6 @@ module.exports.createPost = async (req, res, next) => {
   let url = req.file.path;
   let filename = req.file.filename;
   const newPost = new Post(req.body.post);
-  //console.log(newListing);
   newPost.owner = req.user._id;
   newPost.image = { url, filename };
   await newPost.save();

@@ -243,7 +243,24 @@ body{
 
 .full-height {
     height: 100% !important;
+	justify-content: center !important;
   }
+
+  /* message */
+.message-form{
+	 position: fixed ;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    z-index: 1000;
+}
+.message-inp{
+	border: 2px solid #B44B9E !important;
+}
   .scrollable-content {
     max-height: 100% !important;
     overflow-y: auto !important;
@@ -253,6 +270,9 @@ body{
     .mobile-half-height {
       height: 40vh !important;
     }
+	.message-height{
+		height: 70vh !important;
+	}
 	.second-card{
 		margin-top: 20px !important;
 	}
@@ -262,5 +282,53 @@ body{
 	.mobile-half-height {
       height: 100vh !important;
     }
+	.message-height{
+		height: 90vh !important;
+	}
   }
-  
+ 
+  .sent-msg {
+  background-color: #B44B9E;
+  color: white;
+  align-self: flex-end !important;
+  border-radius: 15px 15px 0 15px;
+  padding: 8px 12px;
+  margin: 5px 0;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+.received-msg {
+  background-color: #4B9EB4;
+  color: white;
+  align-self: flex-start !important;
+  border-radius: 15px 15px 15px 0;
+  padding: 8px 12px;
+  margin: 5px 0;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+.time-date{
+	text-align: right;
+	width: 40%;
+	float: right !important;
+	font-size: 0.7rem;
+	color: #4B9EB4;
+}
+.ms-time-date{
+	text-align: right;
+	float: right !important;
+	font-size: 0.7rem;
+	color:black;
+}
+.msg-card-header{
+	background-color: #4B9EB4;
+	border-radius: 5px;
+	padding: 5px 10px 5px 10px;
+}
+.msg-card-header > a{
+	text-decoration: none;
+	font-size: 1.2rem;
+	font-weight: 800;
+	color: #B44B9E;
+}

@@ -1,3 +1,30 @@
 <% layout("/layouts/boilerplate") -%>
 
-<h1>Your Messages are Here!</h1>
+   <div class="row full-height">
+        <div class="col-12 col-md-6 message-height">
+    		<div class="card h-100">
+				<div class="card-body scrollable-content p-3">
+					<% for(sender of uniqueSenders){ %>
+						<div class="msg-card-header">
+							<a href="/inbox/<%= sender._id %>">
+								<p><img src="<%= sender.image.url %>" alt="profile" class="profile-image"><%= sender.username %>
+								<% let n=0 %>
+								<% for(usm of unSeenMsg){
+									if(usm.sender.equals(sender)){
+										n= n+1;
+									}
+								} %>
+
+								<% if(n>0){ %>
+                					<span class=" badge rounded-pill bg-danger">
+                						<%= n %>
+              						</span>
+								<% } %>
+								</p>
+							</a>
+						</div>
+					<% } %>
+				</div>
+			</div>
+		</div>
+	</div>

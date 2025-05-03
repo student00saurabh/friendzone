@@ -16,5 +16,5 @@ router
 router
   .route("/:id", isLoggedIn)
   .get(isLoggedIn, wrapAsync(messageController.inbox))
-  .post(isLoggedIn, wrapAsync(messageController.msg));
+  .post(isLoggedIn, wrapAsync(messageController.sendMessage));
 module.exports = router;

@@ -70,14 +70,21 @@
               <a class="nav-link" href="/logout"> Logout</a>
           </div>
           <div class="navbar-nav mt-2 mb-2">
-              <a class="nav-link" href="/inbox"><i class="fa-solid fa-message"></i> Messages</a>
+              <a class="nav-link position-relative" href="/inbox"><i class="fa-solid fa-message"></i> Messages
+              <% if(isSeen && (isSeen >0)){ %>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <%= isSeen %>
+                <span class="visually-hidden">unread messages</span>
+              </span>
+              <% } %>
+              </a>
           </div>
 
           <% } %>
 
         <!-- Search Form -->
          <div class="navbar-nav ms-auto">
-          <form class="d-flex" role="search" action="/listings" method="GET">
+          <form class="d-flex" role="search" action="/posts" method="GET">
             <input class="form-control me-2 search-inp" type="search" placeholder="Search you friend" aria-label="Search" name="q">
             <button class="btn btn-search" type="submit">
               <i class="fa-solid fa-magnifying-glass"></i> Search

@@ -4,31 +4,50 @@
 <div class="row mt-3">
     <div class="col-12 col-md-6 offset-md-3">
         <div class="signup-form">
-        <form action="/login" method="POST" class="needs-validation" novalidate>
-            <!-- username -->
-			<div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input
-                    type="text"
-					id="username"
-                    name="username"
-                    class="form-control"
-                    required>
-                </div>
+            <% if(!currUser){ %>
+                <form action="/login" method="POST" class="needs-validation" novalidate>
+                    <!-- username -->
+			        <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                            <input
+                                type="text"
+					            id="username"
+                                name="username"
+                                class="form-control"
+                                required>
+                    </div>
 
-				<!-- password -->
-				 <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input
-                    type="password"
-					id="password"
-                    name="password"
-                    class="form-control"
-                    required>
+				    <!-- password -->
+				    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input
+                            type="password"
+					        id="password"
+                            name="password"
+                            class="form-control"
+                            required>
+                    </div>
+				    <button class="btn btn-success">Login</button><br>
+                </form>
+                <p>Create new account! <a href="/signup" class="posts-link"><button class="btn btn-sm btn-outline-success" style="color: #fff !important">signup</button></a></p>
                 </div>
-				<button class="btn btn-success">Login</button><br>
-            </form>
-           <p>Create new account! <a href="/signup" class="posts-link"><button class="btn btn-sm btn-outline-success" style="color: #fff !important">signup</button></a></p>
-            </div>
+            <% }else{ %>
+                <div class="container my-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card text-center shadow p-4" style="background-color: #f8f9fa;">
+                                <div class="card-body">
+                                    <h3 class="card-title text-primary">You're already logged in!</h3>
+                                    <p class="card-text text-muted">No need to log in again. You can start exploring posts now.</p>
+                                    <a href="/posts" class="btn btn-primary btn-lg mt-3" style="background-color: #B44B9E; border: none;">
+                                        Explore Posts
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
         </div>
     </div> 
+</div>

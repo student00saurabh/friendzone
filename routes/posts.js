@@ -17,8 +17,8 @@ const upload = multer({ storage });
 //Index Route
 //Show Route
 router
-  .route("/", isLoggedIn)
-  .get(isLoggedIn, wrapAsync(postController.index))
+  .route("/")
+  .get(saveRedirectUrl, isLoggedIn, wrapAsync(postController.index))
   .post(
     isLoggedIn,
     upload.single("post[image]"),
