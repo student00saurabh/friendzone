@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://frdzone.online/sitemap.xml
+
+User-agent: Googlebot
+Allow: /logo/favicon.ico
