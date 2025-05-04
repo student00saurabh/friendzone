@@ -5,7 +5,7 @@ module.exports.index = async (req, res) => {
   const allMessages = await Message.find({ receiver: req.user })
     .populate("sender")
     .populate("receiver");
-
+  //unique users who have sended messages
   const uniqueSendersMap = new Map();
 
   allMessages.forEach((msg) => {
@@ -15,11 +15,28 @@ module.exports.index = async (req, res) => {
   });
 
   const uniqueSenders = Array.from(uniqueSendersMap.values());
+
+  // suggested users
+  const sentMessages = await Message.find({ sender: req.user._id });
+  const receivedMessages = await Message.find({ receiver: req.user._id });
+  const messagedUserIds = new Set();
+
+  sentMessages.forEach((msg) => messagedUserIds.add(msg.receiver.toString()));
+  receivedMessages.forEach((msg) => messagedUserIds.add(msg.sender.toString()));
+  const suggestedUsers = await User.find({
+    _id: { $nin: [...messagedUserIds, req.user._id] },
+  });
+  //console.log(suggestedUsers);
+  //unseen meaages
   const unSeenMsg = await Message.find({
     receiver: req.user,
     isSeen: false,
   }).populate("sender");
-  res.render("./messages/index.ejs", { uniqueSenders, unSeenMsg });
+  res.render("./messages/index.ejs", {
+    uniqueSenders,
+    unSeenMsg,
+    suggestedUsers,
+  });
 };
 
 module.exports.inbox = async (req, res) => {

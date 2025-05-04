@@ -24,6 +24,17 @@
 							</a>
 						</div>
 					<% } %>
+					<br>
+				<h4>Suggested People</h4>
+				<% for(sp of suggestedUsers){ %>
+					<div class="card-header">
+							<p>
+								<img src="<%= sp.image.url %>" alt="profile" class="profile-image">
+								<%= sp.username %>&nbsp;&nbsp;
+								<a href="/inbox/<%= sp._id %>" class="btn btn-sm add-btn">Start Messaging</a>
+							</p>
+						</div>
+				<% } %>
 				</div>
 			</div>
 		</div>
