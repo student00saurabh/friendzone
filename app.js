@@ -23,6 +23,7 @@ const userRouter = require("./routes/users.js");
 const othersRouter = require("./routes/others.js");
 const likesRouter = require("./routes/likes.js");
 const messageRouter = require("./routes/messages.js");
+const sitemapRoutes = require("./routes/sitemap");
 
 const dbUrl = process.env.ATLUSDB_URL;
 
@@ -107,10 +108,7 @@ app.use("/posts/:id/likes", likesRouter);
 app.use("/", userRouter);
 app.use("/", othersRouter);
 app.use("/inbox", messageRouter);
-
-app.get("/sitemap", (req, res) => {
-  res.render("/sitemap.xml");
-});
+app.use("/", sitemapRoutes);
 
 //error checker
 // app.use((req, res, next) => {
