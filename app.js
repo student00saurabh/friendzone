@@ -108,6 +108,10 @@ app.use("/", userRouter);
 app.use("/", othersRouter);
 app.use("/inbox", messageRouter);
 
+app.get("/sitemap", (req, res) => {
+  res.render("/sitemap.xml");
+});
+
 //error checker
 // app.use((req, res, next) => {
 //   console.log("Incoming request:", req.method, req.path);
