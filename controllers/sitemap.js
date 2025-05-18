@@ -8,7 +8,7 @@ const sitemapController = async (req, res) => {
     "signup",
     "inbox",
     "profile",
-    "/posts",
+    "posts",
     // Add dynamic routes or read from DB if needed
   ];
 
