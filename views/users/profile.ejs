@@ -26,9 +26,9 @@
 
 			<% for(post of posts){ %>
 				<div>
-					<div class="card shadow-lg rounded-4 mt-3" data-aos="fade-down" data-aos-duration="800">
+					<div class="card shadow-lg rounded-4 mt-3" data-aos="fade-left" data-aos-duration="800">
 						<a href="/posts/<%= post._id %>" class="posts-link">
-				  			<img src="<%= post.image.url %>" class="card-img-top card-img-post" alt="post_image" style="height: 20rem;">
+				  			<img src="<%= post.image.url %>" class="card-img-top card-img-post" alt="post_image" >
 						</a>
 					<div class="card-body">
 						<p><b><%= post.description %></b></p>
