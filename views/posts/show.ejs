@@ -1,7 +1,7 @@
 <% layout("/layouts/boilerplate") -%>
 <div class="row mt-3 full-height">
   	<div class="col-12 col-md-6 ">
-    	<div class="card">
+    	<div class="card" data-aos="fade-right" data-aos-duration="800">
       		<% if(post.owner){ %>
 				<a class="post-owner-card" href="/profile/<%= post.owner._id %>"><img src="<%= post.owner.image.url %>" alt="profile" class="profile-image"><%= post.owner.username %></a>
 			<% } %>
@@ -21,21 +21,21 @@
 			%>
 				<% if(currUser && (!alreadyLiked)){%>
 					<form action="/posts/<%= post._id %>/likes" class="like-unlike-form mb-3" method="post">
-						<button class="like-button" type="submit"><i class="fa-regular fa-heart" id="icon"></i></button>
+						<button class="like-button prevent-multi-submit" type="submit"><i class="fa-regular fa-heart" id="icon"></i></button>
 							<%= post.likes.length %>
 					</form>
 				<% } %>
 						
 				<% if(currUser && alreadyLiked ) { %>
 					<form action="/posts/<%= post._id %>/likes/<%= likeUser._id %>?_method=DELETE" class="like-unlike-form mb-3" method="post">
-						<button class="like-button" type="submit"><i class="fa-solid fa-heart unlike-heart"></i></button>
+						<button class="like-button prevent-multi-submit" type="submit"><i class="fa-solid fa-heart unlike-heart"></i></button>
 							<%= post.likes.length %>
 					</form>
 				<% } %>
 				<% if(currUser && currUser._id.equals(post.owner._id)) { %>
 						<a href="/posts/<%= post._id %>/edit" class="btn btn-sm btn-dark offset-1 edit-btn">Edit</a>
 						<form method="POST" action="/posts/<%= post._id %>?_method=DELETE">
-							<button class="btn btn-sm btn-dark offset-3">Delete</button>
+							<button class="btn btn-sm btn-dark offset-3 prevent-multi-submit">Delete</button>
 						</form>
 					 
 				<% } %>
@@ -47,7 +47,7 @@
     	</div>
   	</div>
   	<div class="col-12 col-md-6 mobile-half-height second-card">
-    	<div class="card h-100">
+    	<div class="card h-100" data-aos="fade-left" data-aos-duration="800">
 			<div class="card-body scrollable-content">
       			<% if(currUser) { %>
 					<h4>Leave a Comment</h4>
@@ -57,7 +57,7 @@
 							<input type="text" name="comment[content]" id="cntent" cols="30" rows="5" class="form-control" required>
 							<div class="invalid-feedback">Please submit some comments for review.</div>
 						</div>
-						<button class="btn btn-outline-dark">Submit</button>
+						<button class="btn btn-outline-dark prevent-multi-submit">Submit</button>
 					</form>
 				<% } %>
 
@@ -72,7 +72,7 @@
 									<p class="card-text">Date: <%= comment.createdAt.toISOString().split('T')[0] %></p>
 									<% if(currUser && currUser._id.equals(comment.author._id)) { %>
 										<form action="/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" class="mb-3" method="post">
-											<button class="btn btn-sm btn-dark comment-btn">Delete</button>
+											<button class="btn btn-sm btn-dark comment-btn prevent-multi-submit">Delete</button>
 										</form>
 									<% } %>
 								</div>

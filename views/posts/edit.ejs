@@ -1,7 +1,7 @@
 <% layout("/layouts/boilerplate") -%>
 
 <div class="row">
-		<div class="col-12 col-md-6 offset-md-3">
+		<div class="col-12 col-md-6 offset-md-3" data-aos="fade-down" data-aos-duration="800">
 			<h3>Edit Your Post</h3>
 			<form method="POST" action="/posts/<%= post._id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
 
@@ -22,7 +22,7 @@
         			<input type="file" name="post[image]" class="form-control">
 				</div>
         
-				<button class="btn btn-dark edit-btn">edit</button>
+				<button class="btn btn-dark edit-btn prevent-multi-submit">edit</button>
 			</form><br><br>
 		</div>
 	</div>

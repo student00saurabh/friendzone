@@ -21,3 +21,26 @@
     );
   });
 })();
+
+// const cards = document.querySelectorAll(".posts-card");
+
+// cards.forEach((card, index) => {
+//   setTimeout(() => {
+//     card.classList.add("post-card-visible");
+//   }, index * 400); // 200ms delay between each card
+// });
+
+const counter = document.getElementById("countUp");
+const max = parseInt(counter.getAttribute("data-amount"));
+let current = 0;
+
+if (max > 50) {
+  const interval = setInterval(() => {
+    if (current >= max) {
+      clearInterval(interval);
+    } else {
+      current++;
+      counter.textContent = current;
+    }
+  }, 40); // 100ms interval (adjust as needed)
+}

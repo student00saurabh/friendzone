@@ -1,22 +1,34 @@
 <% layout("/layouts/boilerplate") -%>
-	<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3 g-3">
-	<% for(post of allPosts){ %>
-		<div>
-			<div class="card col posts-card">
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3 g-3">
+	<% let delay = 0; %> <!-- ✅ Define delay outside the loop -->
+	<% for(const post of allPosts){ %>
+		<div class="col"> <!-- ✅ Bootstrap grid works here -->
+			<div class="card posts-card"
+				 data-aos="fade-right"
+				 data-aos-delay="<%= delay %>"
+				 data-aos-duration="800">
+				
+				<% delay += 300; %> <!-- ✅ Increment delay for next post -->
+
 				<% if(post.owner){ %>
-					<a class="post-owner-card" href="/profile/<%= post.owner._id %>"><img src="<%= post.owner.image.url %>" alt="profile" class="profile-image"><%= post.owner.username %></a>
+					<a class="post-owner-card" href="/profile/<%= post.owner._id %>">
+						<img src="<%= post.owner.image.url %>" alt="profile" class="profile-image">
+						<%= post.owner.username %>
+					</a>
 				<% } %>
+
 				<a href="/posts/<%= post._id %>" class="posts-link">
 				  	<img src="<%= post.image.url %>" class="card-img-top" alt="post_image" style="height: 20rem;">
 				</a>
+
 				<div class="card-body">
 					<p><b><%= post.description %></b></p>
-					
+
 					<%
   						let likeUser = null;
   						let alreadyLiked = post.likes.some((like) => {
     						if (currUser && like.cliker == currUser._id) {
-      							likeUser = like; // store the like object
+      							likeUser = like;
       							return true;
     						}
     						return false;
@@ -26,20 +38,27 @@
 					<p>
 						<% if(currUser && (!alreadyLiked)){%>
 							<form action="/posts/<%= post._id %>/likes" class="like-unlike-form mb-3" method="post">
-								<button class="like-button" type="submit"><i class="fa-regular fa-heart" id="icon"></i></button>
+								<button class="like-button prevent-multi-submit" type="submit">
+									<i class="fa-regular fa-heart" id="icon"></i>
+								</button>
 								<%= post.likes.length %>
 							</form>
 						<% } %>
-						
-						<% if(currUser && alreadyLiked ) { %>
+
+						<% if(currUser && alreadyLiked) { %>
 							<form action="/posts/<%= post._id %>/likes/<%= likeUser._id %>?_method=DELETE" class="like-unlike-form mb-3" method="post">
-								<button class="like-button" type="submit"><i class="fa-solid fa-heart unlike-heart"></i></button>
+								<button class="like-button prevent-multi-submit" type="submit">
+									<i class="fa-solid fa-heart unlike-heart"></i>
+								</button>
 								<%= post.likes.length %>
 							</form>
 						<% } %>
-						
-						&nbsp; &nbsp; 
-						<a href="/posts/<%= post._id%>" class="posts-link"><i class="fa-regular fa-comment"></i> Comments</a>
+
+						&nbsp;&nbsp;
+						<a href="/posts/<%= post._id %>" class="posts-link">
+							<i class="fa-regular fa-comment"></i> Comments
+						</a>
+
 						<span class="time-date">
 							<%= new Date(post.createdAt).toLocaleString() %>
 						</span>
@@ -48,4 +67,4 @@
 	  		</div>
 		</div>
 	<% } %>
-	</div>
+</div>

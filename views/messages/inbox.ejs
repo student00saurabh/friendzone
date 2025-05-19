@@ -4,9 +4,10 @@
     		<div class="card h-100">
 				<p class="card-header"><img src="<%= senderPerson.image.url %>" alt="profile" class="profile-image"><%= senderPerson.username %></p>
 				<div class="card-body scrollable-content p-3">
+					<% let delay = 0 %>
 				<% for(sm of allMessages){ %>
 						<% if(sm.sender.equals(currUser)){ %>
-							<div class="d-flex justify-content-end">
+							<div class="d-flex justify-content-end" data-aos="fade-down" data-aos-delay="<%= delay %>" data-aos-duration="800">
   								<div class="card-text sent-msg"><%= sm.msg %> <br>
 									<span class="ms-time-date">
 									<%= new Date(sm.createdAt).toLocaleString() %>
@@ -14,7 +15,7 @@
 								</div>
 							</div>
 						<% } else {%>
-							<div class="d-flex justify-content-start">
+							<div class="d-flex justify-content-start" data-aos="fade-down" data-aos-delay="<%= delay %>" data-aos-duration="800">
   								<div class="card-text received-msg"><%= sm.msg %> <br>
 									<span class="ms-time-date">
 									<%= new Date(sm.createdAt).toLocaleString() %>
@@ -22,12 +23,13 @@
 								</div>
 							</div>
 						<% } %>
+						<% delay += 400 %>
 				<% } %>
 			</div>
 
 			<form action="/inbox/<%= senderId %>" method="POST" novalidate class="needs-validation message-form col-12 col-md-6 offset-md-3">
 					<input type="text" name="msg"  class="form-control message-inp" required>
-					<button class="btn btn-dark add-btn message-btn"><i class="fa-solid fa-circle-chevron-right"></i></button>
+					<button class="btn btn-dark add-btn message-btn prevent-multi-submit"><i class="fa-solid fa-circle-chevron-right"></i></button>
 			</form>
 		</div>
 		</div>

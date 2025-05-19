@@ -1,89 +1,177 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>FriendZone - A Social Media Web App</title>
-	<meta name="description" content="FriendZone is a social media web application where users can connect, post updates, chat, and interact in real-time.">
-	<meta name="keywords" content="FriendZone, Social Media, Chat App, Node.js, Express, MongoDB, Web App, saurabh, saurabh mishra">
-	<meta name="author" content="Saurabh Mishra">
+<% layout("/layouts/boilerplate") -%>
+<style>
+   .header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   } 
+   .shadow-sm{
+    box-shadow: 0px 2px 2px 2px #B44B9E !important;
+    border: 1px solid #B44B9E !important;
+   }
+   .home-img{
+    display: inline-block;
+    height: 200px !important;
+    width: 200px !important;
+   }
+   /* Tablets (≥577px to 768px) */
+@media (min-width: 577px) and (max-width: 768px) {
+  .shadow-sm{
+    box-shadow: 0px 2px 2px 2px #B44B9E !important;
+    border: 1px solid #B44B9E !important;
+   }
+   .home-img{
+    height: 240px !important;
+    width: 240px !important;
+   }
+}
 
-	<link rel="icon" type="image/x-icon" href="/favicon.ico">
+/* Small laptops (≥769px to 992px) */
+@media (min-width: 769px) and (max-width: 992px) {
+  .shadow-sm{
+    box-shadow: 0px 2px 2px 2px #B44B9E !important;
+    border: 1px solid #B44B9E !important;
+    display: flex !important;
+   }
+   .home-img{
+    height: 200px !important;
+    width: 240px !important;
+   }
+}
 
-	<!-- Apple Touch Icon -->
-	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+/* Desktops and up (≥993px) */
+@media (min-width: 993px) {
+  .shadow-sm{
+    box-shadow: 0px 2px 2px 2px #B44B9E !important;
+    border: 1px solid #B44B9E !important;
+    display: flex !important;
+   }
+   .home-img{
+    height: 200px !important;
+    width: 260px !important;
+   }
+}
+</style>
 
-	<!-- Android Chrome -->
-	<link rel="icon" type="image/png" sizes="192x192" href="/logo.png">
 
-	<meta name="google-site-verification" content="P_sdaRN3c9dKR34t1KLjlqDB_CQWBK8TL8llqgV1JfY" />
-	<!-- Meta OpenGraph image (for sharing) -->
+  <div class="container text-center my-2" data-aos="zoom-in" data-aos-duration="1800">
+    <div class="logo-part">
+      <img src="/logo.png" alt="Friendzone" class="img-fluid" style="max-width: 300px;">
+    </div>
+  </div>
 
-	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://friendzone-7tjx.onrender.com/">
-	<meta property="og:title" content="FriendZone - A Social Media Web App">
-	<meta property="og:description" content="Connect with friends, share updates, and chat in real-time on FriendZone.">
-	<meta property="og:image" content="https://friendzone-7tjx.onrender.com/logo/favicon-32x32.png">
+  <div class="container text-center my-2" data-aos="fade-down" data-aos-duration="800">
+    <h1 class="display-4 fw-bold">Welcome to FriendZone</h1>
+    <p class="lead text-muted">Connect, chat, and stay in touch with your friends.</p>
+  </div>
 
+  <div class="container text-center my-2" data-aos="fade-down" data-aos-duration="800">
+    <div class=" p-4 rounded">
+      <h2 class="fw-bold">
+        Hey there! 👋
+      </h2>
+      <p class="lead mb-3">
+        <span id="countUp" class="fw-bold " data-amount="100">0</span>+ awesome people have already joined <span >FriendZone</span>!
+      </p>
+      <p class="text-muted">
+        Real connections, real people. Be part of the next big community today.
+      </p>
+      <a href="/login" class="btn btn-primary btn-lg mt-3 add-btn">Join Now</a>
+    </div>
+  </div>
+  
 
-	<link rel="stylesheet" href="/css/style.css">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+  <div class="container my-5" id="features">
+    <h2 class="text-center fw-bold mb-5">Features of FriendZone</h2>
+    <div class="row g-4">
+      
+      <!-- Secure Login & Signup -->
+      <div class="col-12 col-md-6 offset-md-3" data-aos="fade-left" data-aos-duration="800">
+        <div class="p-4 border rounded shadow-sm ">
+          <div class="img-box">
+            <img src="images/l4.png" class="img-fluid rounded mb-3 home-img" alt="Secure Login">
+          </div>
+          <div class="col-12 col-md-6 offset-md-3" class="text-box">
+            <h5 class="fw-bold">Secure Login & Signup</h5>
+            <p>Your privacy is our priority. With encrypted login systems and secure session handling, your data is always protected. No one gets in except you — simple, safe, and seamless.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Real-Time Chat -->
+      <div class="col-12 col-md-6 offset-md-3" data-aos="fade-right" data-aos-duration="800">
+        <div class="p-4 border rounded shadow-sm">
+          <div class="img-box">
+            <img src="images/l1.png" class="img-fluid rounded mb-3 home-img" alt="Real-Time Chat">
+          </div>
+          <div class="col-12 col-md-6 offset-md-3" class="text-box">
+            <h5 class="fw-bold">Real-Time Chat</h5>
+          <p>Experience live chatting with zero lag. Whether it’s a group chat or one-on-one conversation, messages arrive instantly, keeping you close to your people wherever you are.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Add & Connect -->
+      <div class="col-12 col-md-6 offset-md-3" data-aos="fade-left" data-aos-duration="800">
+        <div class="p-4 border rounded shadow-sm ">
+          <div class="img-box">
+            <img src="images/l6.png" class="img-fluid rounded mb-3 home-img" alt="Connect Friends">
+          </div>
+          <div class="col-12 col-md-6 offset-md-3" class="text-box">
+            <h5 class="fw-bold">Add & Connect with Friends</h5>
+          <p>Find friends, send requests, and build your network with ease. Whether you're reconnecting with old friends or making new ones, FriendZone makes the connection smooth and natural.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Share Moments -->
+      <div class="col-12 col-md-6 offset-md-3" data-aos="fade-right" data-aos-duration="800">
+        <div class="p-4 border rounded shadow-sm ">
+          <div class="img-box">
+            <img src="images/l5.png" class="img-fluid rounded mb-3 home-img" alt="Share Moments">
+          </div>
+          <div class="col-12 col-md-6 offset-md-3" class="text-box">
+            <h5 class="fw-bold">Share Moments</h5>
+          <p>Express yourself! Post photos, thoughts, or updates to your personal timeline. Friends can like, comment, and stay connected with the moments that matter most in your life.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Personalized Feed -->
+      <div class="col-12 col-md-6 offset-md-3" data-aos="fade-left" data-aos-duration="800">
+        <div class="p-4 border rounded shadow-sm ">
+          <div  class="img-box">
+            <img src="images/l3.png" class="img-fluid rounded mb-3 home-img" alt="Personalized Feed">
+          </div>
+          <div class="col-12 col-md-6 offset-md-3" class="text-box">
+            <h5 class="fw-bold ">Personalized Feed</h5>
+            <p>No more clutter! Your feed is designed to show what you actually care about — updates from people you interact with the most. It's smart, dynamic, and made for *you*.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- UI Design -->
+      <div class="col-12 col-md-6 offset-md-3" data-aos="fade-right" data-aos-duration="800">
+        <div class="p-4 border rounded shadow-sm ">
+          <div class="img-box">
+            <img src="images/l7.png" class="img-fluid rounded mb-3 home-img" alt="User Interface">
+          </div>
+          <div class="col-12 col-md-6 offset-md-3" class="text-box">
+            <h5 class="fw-bold">Clean, Friendly UI</h5>
+          <p>Simple, elegant, and mobile-ready. The FriendZone interface is crafted with clarity in mind — easy navigation, clean layouts, and a smooth experience across devices.</p>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
 
-  <style>
-    body {
-      background: linear-gradient(to right, #4B9EB4, #B44B9E);
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .welcome-card {
-      background-color: #fff;
-      color: #4B9EB4;
-      border-radius: 20px;
-      padding: 40px 30px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      text-align: center;
-      max-width: 400px;
-      width: 90%;
-    }
-    .welcome-card h1 {
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-    .welcome-card p {
-      color: #555;
-    }
-    .btn-login {
-      background-color: #4B9EB4;
-      color: white;
-    }
-    .btn-signup {
-      background-color: #B44B9E;
-      color: white;
-    }
-    .btn-login:hover,
-    .btn-signup:hover {
-      opacity: 0.9;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="welcome-card">
+  <!-- <div class="welcome-card">
     <h1>Welcome to FriendZone</h1>
     <p>Connect, chat, and stay in touch with your friends.</p>
     <div class="d-grid gap-2 mt-4">
       <a href="/login" class="btn btn-login btn-lg">Login</a>
       <a href="/signup" class="btn btn-signup btn-lg">Sign Up</a>
     </div>
-  </div>
-
-</body>
-</html>
+  </div> -->

@@ -1,7 +1,7 @@
 <% layout("/layouts/boilerplate") -%>
 <div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-lg-8 col-md-10 col-12">
+        <div class="col-lg-8 col-md-10 col-12" data-aos="fade-down" data-aos-duration="800">
             <div class="card shadow-lg rounded-4 p-4">
 				<div class="profile-div">
 					<img src="<%= profile.image.url %>" class="my-image" alt="">
@@ -14,15 +14,19 @@
 					<p class="card-text"><b>About: </b><%= profile.about %></p>
 					<% if(!profile._id.equals(currUser._id)){%>
 						<form action="/inbox/<%= profile._id %>" class="like-unlike-form mb-3" method="get">
-							<button type="submit" class="btn btn-sm add-btn">Message to <%= profile.username %></button>
-							</form>
+							<button type="submit" class="btn btn-sm add-btn prevent-multi-submit">Message to <%= profile.username %></button>
+						</form>
+					<% }else{ %>
+						<div>
+							<a class="btn btn-sm btn-outline-danger" href="/logout"> Logout</a>
+						</div>
 					<% } %>
 				</div>
 			</div>
 
 			<% for(post of posts){ %>
 				<div>
-					<div class="card shadow-lg rounded-4 mt-3">
+					<div class="card shadow-lg rounded-4 mt-3" data-aos="fade-down" data-aos-duration="800">
 						<a href="/posts/<%= post._id %>" class="posts-link">
 				  			<img src="<%= post.image.url %>" class="card-img-top card-img-post" alt="post_image" style="height: 20rem;">
 						</a>

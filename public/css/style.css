@@ -335,3 +335,14 @@ body{
 	font-weight: 800;
 	color: #B44B9E;
 }
+
+/* .posts-card {
+	opacity: 0 !important;
+	transform: translateY(20px) !important ;
+	transition: all 0.8s ease !important;
+  }
+  
+  .posts-card.post-card-visible {
+	opacity: 1 !important;
+	transform: translateY(0) !important;
+  } */
