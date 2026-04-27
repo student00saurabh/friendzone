@@ -1,43 +1,140 @@
 <% layout("/layouts/boilerplate") -%>
 
-   <div class="row full-height">
-        <div class="col-12 col-md-6 message-height">
-    		<div class="card h-100">
-				<div class="card-body scrollable-content p-3">
-					<% let delay = 0 %>
-					<% for(sender of uniqueSenders){ %>
-						<div class="msg-card-header" data-aos="fade-down" data-aos-delay="<%= delay %>" data-aos-duration="800">
-							<% delay += 400 %>
-							<a href="/inbox/<%= sender._id %>">
-								<p><img src="<%= sender.image.url %>" alt="profile" class="profile-image"><%= sender.username %>
-								<% let n=0 %>
-								<% for(usm of unSeenMsg){
-									if(usm.sender.equals(sender)){
-										n= n+1;
-									}
-								} %>
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-4">
+            <h2 class="text-xl font-bold text-white flex items-center">
+                <i class="fa-solid fa-message mr-2"></i>
+                Messages
+            </h2>
+            <p class="text-purple-100 text-sm mt-1">Chat with your friends</p>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="h-[calc(100vh-200px)] overflow-y-auto">
+            
+            <!-- Conversations List -->
+            <% if(uniqueSenders.length > 0) { %>
+                <div class="divide-y divide-gray-100">
+                    <% let delay = 0 %>
+                    <% for(sender of uniqueSenders){ %>
+                        <a href="/inbox/<%= sender._id %>" 
+                           class="block hover:bg-purple-50 transition-colors duration-200"
+                           data-aos="fade-up" 
+                           data-aos-delay="<%= delay %>" 
+                           data-aos-duration="500">
+                            <% delay += 100 %>
+                            
+                            <div class="flex items-center gap-4 p-4">
+                                <!-- Avatar -->
+                                <div class="relative">
+                                    <img src="<%= sender.image.url %>" alt="<%= sender.username %>" 
+                                         class="w-12 h-12 rounded-full object-cover">
+                                    <!-- Online Status Dot (optional) -->
+                                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                                </div>
+                                
+                                <!-- User Info -->
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="font-semibold text-gray-800 truncate">
+                                            <%= sender.username %>
+                                        </h3>
+                                        <!-- Unread Badge -->
+                                        <% let n = 0 %>
+                                        <% for(usm of unSeenMsg){
+                                            if(usm.sender.equals(sender)){
+                                                n = n + 1;
+                                            }
+                                        } %>
+                                        <% if(n > 0){ %>
+                                            <span class="bg-red-500 text-white text-xs font-bold rounded-full px-2 py-0.5 min-w-[20px] text-center">
+                                                <%= n %>
+                                            </span>
+                                        <% } %>
+                                    </div>
+                                    <p class="text-sm text-gray-500 truncate">
+                                        Tap to start chatting
+                                    </p>
+                                </div>
+                                
+                                <!-- Arrow Icon -->
+                                <i class="fa-solid fa-chevron-right text-gray-400 text-sm"></i>
+                            </div>
+                        </a>
+                    <% } %>
+                </div>
+            <% } else { %>
+                <!-- No Conversations -->
+                <div class="text-center py-12">
+                    <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-regular fa-comment-dots text-3xl text-gray-400"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-600 mb-2">No messages yet</h3>
+                    <p class="text-gray-500 text-sm mb-4">Start a conversation with someone new</p>
+                </div>
+            <% } %>
+            
+            <!-- Suggested People Section -->
+            <div class="border-t border-gray-200 mt-2">
+                <div class="bg-gray-50 px-4 py-3">
+                    <h4 class="font-semibold text-gray-700 flex items-center">
+                        <i class="fa-solid fa-user-plus mr-2 text-purple-500"></i>
+                        Suggested People
+                    </h4>
+                </div>
+                
+                <div class="divide-y divide-gray-100">
+                    <% if(suggestedUsers.length > 0) { %>
+                        <% for(sp of suggestedUsers){ %>
+                            <div class="flex items-center justify-between gap-4 p-4 hover:bg-gray-50 transition-colors duration-200">
+                                <div class="flex items-center gap-3 flex-1 min-w-0">
+                                    <img src="<%= sp.image.url %>" alt="<%= sp.username %>" 
+                                         class="w-10 h-10 rounded-full object-cover">
+                                    <div class="flex-1">
+                                        <h5 class="font-medium text-gray-800 truncate"><%= sp.username %></h5>
+                                        <p class="text-xs text-gray-500">Start a conversation</p>
+                                    </div>
+                                </div>
+                                <a href="/inbox/<%= sp._id %>" 
+                                   class="px-4 py-1.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm rounded-full hover:from-purple-700 hover:to-pink-700 transition shadow-sm whitespace-nowrap">
+                                    <i class="fa-regular fa-message mr-1"></i>
+                                    Message
+                                </a>
+                            </div>
+                        <% } %>
+                    <% } else { %>
+                        <div class="text-center py-6">
+                            <p class="text-gray-400 text-sm">No suggestions available</p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
 
-								<% if(n>0){ %>
-                					<span class=" badge rounded-pill bg-danger">
-                						<%= n %>
-              						</span>
-								<% } %>
-								</p>
-							</a>
-						</div>
-					<% } %>
-					<br>
-				<h4>Suggested People</h4>
-				<% for(sp of suggestedUsers){ %>
-					<div class="card-header">
-							<p>
-								<img src="<%= sp.image.url %>" alt="profile" class="profile-image">
-								<%= sp.username %>&nbsp;&nbsp;
-								<a href="/inbox/<%= sp._id %>" class="btn btn-sm add-btn">Start Messaging</a>
-							</p>
-						</div>
-				<% } %>
-				</div>
-			</div>
-		</div>
-	</div>
+<style>
+    /* Custom scrollbar */
+    .overflow-y-auto::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .overflow-y-auto::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    
+    .overflow-y-auto::-webkit-scrollbar-thumb {
+        background: #c084fc;
+        border-radius: 10px;
+    }
+    
+    .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+        background: #a855f7;
+    }
+</style>
