@@ -21,7 +21,7 @@
             <% for(sm of allMessages){ %>
                 <% if(sm.sender.equals(currUser)){ %>
                     <!-- Sent Message -->
-                    <div class="flex justify-end" data-aos="fade-down" data-aos-delay="<%= delay %>" data-aos-duration="800">
+                    <div class="flex justify-end"  >
                         <div class="max-w-xs lg:max-w-md bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl rounded-br-none px-4 py-2 shadow-md">
                             <p class="text-sm"><%= sm.msg %></p>
                             <span class="text-xs text-purple-200 mt-1 block">
@@ -31,7 +31,7 @@
                     </div>
                 <% } else { %>
                     <!-- Received Message -->
-                    <div class="flex justify-start" data-aos="fade-down" data-aos-delay="<%= delay %>" data-aos-duration="800">
+                    <div class="flex justify-start" >
                         <div class="max-w-xs lg:max-w-md bg-white border border-gray-200 rounded-2xl rounded-bl-none px-4 py-2 shadow-sm">
                             <p class="text-sm text-gray-800"><%= sm.msg %></p>
                             <span class="text-xs text-gray-400 mt-1 block">
