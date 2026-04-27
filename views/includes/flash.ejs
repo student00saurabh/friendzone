@@ -1,13 +1,72 @@
 <% if(success && success.length) { %>
-<div class="alert alert-success alert-dismissible fade show col-12 col-md-6 offset-md-3 mt-2" role="alert">
-   <%= success %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="max-w-2xl mx-auto mt-4 px-4" role="alert">
+    <div class="relative bg-green-50 border-l-4 border-green-500 rounded-lg p-4 shadow-sm animate-fade-in">
+        <div class="flex items-start">
+            <div class="flex-shrink-0">
+                <i class="fa-solid fa-check-circle text-green-500 text-lg"></i>
+            </div>
+            <div class="ml-3 flex-1">
+                <p class="text-sm text-green-700"><%= success %></p>
+            </div>
+            <div class="ml-4 flex-shrink-0">
+                <button type="button" class="close-alert text-green-500 hover:text-green-700 transition-colors duration-200" aria-label="Close">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 <% } %>
 
 <% if(error && error.length) { %>
-<div class="alert alert-danger alert-dismissible fade show col-12 col-md-6 offset-md-3 mt-2" role="alert">
-   <%= error %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="max-w-2xl mx-auto mt-4 px-4" role="alert">
+    <div class="relative bg-red-50 border-l-4 border-red-500 rounded-lg p-4 shadow-sm animate-fade-in">
+        <div class="flex items-start">
+            <div class="flex-shrink-0">
+                <i class="fa-solid fa-exclamation-triangle text-red-500 text-lg"></i>
+            </div>
+            <div class="ml-3 flex-1">
+                <p class="text-sm text-red-700"><%= error %></p>
+            </div>
+            <div class="ml-4 flex-shrink-0">
+                <button type="button" class="close-alert text-red-500 hover:text-red-700 transition-colors duration-200" aria-label="Close">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 <% } %>
+
+<script>
+    // Auto-dismiss flash messages after 5 seconds
+    document.querySelectorAll('.close-alert').forEach(button => {
+        button.addEventListener('click', function() {
+            this.closest('[role="alert"]').style.display = 'none';
+        });
+    });
+    
+    // Auto hide after 5 seconds
+    setTimeout(() => {
+        document.querySelectorAll('[role="alert"]').forEach(alert => {
+            alert.style.display = 'none';
+        });
+    }, 5000);
+</script>
+
+<style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-out;
+    }
+</style>

@@ -1,87 +1,211 @@
 <% layout("/layouts/boilerplate") -%>
-<div class="row mt-3 full-height">
-  	<div class="col-12 col-md-6 ">
-    	<div class="card" data-aos="fade-right" data-aos-duration="800">
-      		<% if(post.owner){ %>
-				<a class="post-owner-card" href="/profile/<%= post.owner._id %>"><img src="<%= post.owner.image.url %>" alt="profile" class="profile-image"><%= post.owner.username %></a>
-			<% } %>
-			<img src="<%= post.image.url %>" class="card-img-top show-img" alt="listing_image">
-  			<div class="card-body">
-			<p class="card-text"><%= post.description %></p>
-			<div class="btns">
-			<%
-  				let likeUser = null;
-  				let alreadyLiked = post.likes.some((like) => {
-    			if (currUser && like.cliker == currUser._id) {
-      				likeUser = like; // store the like object
-      				return true;
-    			}
-    			return false;
-  				});
-			%>
-				<% if(currUser && (!alreadyLiked)){%>
-					<form action="/posts/<%= post._id %>/likes" class="like-unlike-form mb-3" method="post">
-						<button class="like-button prevent-multi-submit" type="submit"><i class="fa-regular fa-heart" id="icon"></i></button>
-							<%= post.likes.length %>
-					</form>
-				<% } %>
-						
-				<% if(currUser && alreadyLiked ) { %>
-					<form action="/posts/<%= post._id %>/likes/<%= likeUser._id %>?_method=DELETE" class="like-unlike-form mb-3" method="post">
-						<button class="like-button prevent-multi-submit" type="submit"><i class="fa-solid fa-heart unlike-heart"></i></button>
-							<%= post.likes.length %>
-					</form>
-				<% } %>
-				<% if(currUser && currUser._id.equals(post.owner._id)) { %>
-						<a href="/posts/<%= post._id %>/edit" class="btn btn-sm btn-dark offset-1 edit-btn">Edit</a>
-						<form method="POST" action="/posts/<%= post._id %>?_method=DELETE">
-							<button class="btn btn-sm btn-dark offset-3 prevent-multi-submit">Delete</button>
-						</form>
-					 
-				<% } %>
-				<span class="time-date">
-					<%= new Date(post.createdAt).toLocaleString() %>
-				</span>
-			</div>
-			</div>
-    	</div>
-  	</div>
-  	<div class="col-12 col-md-6 mobile-half-height second-card">
-    	<div class="card h-100" data-aos="fade-left" data-aos-duration="800">
-			<div class="card-body scrollable-content">
-      			<% if(currUser) { %>
-					<h4>Leave a Comment</h4>
-					<form action="/posts/<%= post.id %>/comments" method="POST" novalidate class="needs-validation">
-						<div class="mb-3 mt-3">
-							<label for="content" class="form-label">Comment</label>
-							<input type="text" name="comment[content]" id="cntent" cols="30" rows="5" class="form-control" required>
-							<div class="invalid-feedback">Please submit some comments for review.</div>
-						</div>
-						<button class="btn btn-outline-dark prevent-multi-submit">Submit</button>
-					</form>
-				<% } %>
 
-				<% if(post.comments.length > 0){ %>
-					<div class="row">
-						<p><b>All Comments</b></p>
-						<% for(comment of post.comments) {%>
-							<div class="card comment-card col-10 ms-4 mb-3">
-								<div class="card-body comment-card-body">
-									<h5 class="card-title"><img src="<%= comment.author.image.url %>" alt="profile" class="profile-image"><%= comment.author.username %></h5>
-									<p class="card-text"><%= comment.content %></p>
-									<p class="card-text">Date: <%= comment.createdAt.toISOString().split('T')[0] %></p>
-									<% if(currUser && currUser._id.equals(comment.author._id)) { %>
-										<form action="/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" class="mb-3" method="post">
-											<button class="btn btn-sm btn-dark comment-btn prevent-multi-submit">Delete</button>
-										</form>
-									<% } %>
-								</div>
-							</div>
-						<% } %>
-					</div>
-				<% } %>
-				
-    		</div>
-		</div>
-  	</div>
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <div class="flex flex-col lg:flex-row gap-6">
+        
+        <!-- Left Column - Post Card -->
+        <div class="lg:w-1/2" data-aos="fade-right" data-aos-duration="800">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden sticky top-24">
+                
+                <!-- Post Owner -->
+                <% if(post.owner){ %>
+                <div class="flex items-center gap-3 p-4 border-b border-gray-100">
+                    <a href="/profile/<%= post.owner._id %>" class="flex items-center gap-3 group">
+                        <img src="<%= post.owner.image.url %>" alt="<%= post.owner.username %>" 
+                             class="w-10 h-10 rounded-full object-cover ring-2 ring-purple-200 group-hover:ring-purple-400 transition-all">
+                        <span class="font-semibold text-gray-800 group-hover:text-purple-600 transition">
+                            <%= post.owner.username %>
+                        </span>
+                    </a>
+                </div>
+                <% } %>
+                
+                <!-- Post Image -->
+                <img src="<%= post.image.url %>" class="w-full object-cover max-h-96" alt="post_image">
+                
+                <!-- Post Body -->
+                <div class="p-5">
+                    <!-- Description -->
+                    <p class="text-gray-800 text-lg leading-relaxed mb-4">
+                        <%= post.description %>
+                    </p>
+                    
+                    <!-- Date -->
+                    <div class="text-xs text-gray-400 mb-4">
+                        <i class="fa-regular fa-calendar mr-1"></i>
+                        <%= new Date(post.createdAt).toLocaleString() %>
+                    </div>
+                    
+                    <!-- Like and Action Buttons -->
+                    <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                        <div class="flex items-center gap-4">
+                            <%
+                                let likeUser = null;
+                                let alreadyLiked = post.likes.some((like) => {
+                                    if (currUser && like.cliker == currUser._id) {
+                                        likeUser = like;
+                                        return true;
+                                    }
+                                    return false;
+                                });
+                            %>
+                            
+                            <% if(currUser && (!alreadyLiked)){ %>
+                                <form action="/posts/<%= post._id %>/likes" method="post" class="inline">
+                                    <button class="like-button flex items-center gap-2 text-gray-500 hover:text-purple-600 transition group">
+                                        <i class="fa-regular fa-heart text-2xl group-hover:scale-110 transition-transform"></i>
+                                        <span class="text-sm font-medium"><%= post.likes.length %> likes</span>
+                                    </button>
+                                </form>
+                            <% } %>
+                            
+                            <% if(currUser && alreadyLiked) { %>
+                                <form action="/posts/<%= post._id %>/likes/<%= likeUser._id %>?_method=DELETE" method="post" class="inline">
+                                    <button class="like-button flex items-center gap-2 text-red-500 hover:text-red-600 transition group">
+                                        <i class="fa-solid fa-heart text-2xl group-hover:scale-110 transition-transform"></i>
+                                        <span class="text-sm font-medium"><%= post.likes.length %> likes</span>
+                                    </button>
+                                </form>
+                            <% } %>
+                        </div>
+                        
+                        <!-- Edit/Delete for Owner -->
+                        <% if(currUser && currUser._id.equals(post.owner._id)) { %>
+                        <div class="flex items-center gap-2">
+                            <a href="/posts/<%= post._id %>/edit" class="px-3 py-1 text-sm bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition">
+                                <i class="fa-solid fa-pen mr-1"></i> Edit
+                            </a>
+                            <form method="POST" action="/posts/<%= post._id %>?_method=DELETE" class="inline">
+                                <button class="px-3 py-1 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition prevent-multi-submit">
+                                    <i class="fa-solid fa-trash mr-1"></i> Delete
+                                </button>
+                            </form>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Column - Comments Section -->
+        <div class="lg:w-1/2" data-aos="fade-left" data-aos-duration="800">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                
+                <!-- Comments Header -->
+                <div class="bg-gradient-to-r from-purple-600 to-pink-600 px-5 py-3">
+                    <h4 class="text-white font-semibold flex items-center">
+                        <i class="fa-regular fa-comments mr-2"></i>
+                        Comments (<%= post.comments.length %>)
+                    </h4>
+                </div>
+                
+                <!-- Comments Container -->
+                <div class="h-96 overflow-y-auto p-5">
+                    
+                    <!-- Leave a Comment Form -->
+                    <% if(currUser) { %>
+                    <div class="mb-6 p-4 bg-gray-50 rounded-xl">
+                        <h5 class="font-semibold text-gray-800 mb-3 flex items-center">
+                            <i class="fa-regular fa-pen-to-square text-purple-500 mr-2"></i>
+                            Leave a Comment
+                        </h5>
+                        <form action="/posts/<%= post.id %>/comments" method="POST" novalidate>
+                            <div class="mb-3">
+                                <textarea 
+                                    name="comment[content]" 
+                                    id="content"
+                                    rows="3"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition resize-none"
+                                    placeholder="Write something..."
+                                    required
+                                ></textarea>
+                            </div>
+                            <button class="prevent-multi-submit px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition shadow-md">
+                                <i class="fa-regular fa-paper-plane mr-2"></i>
+                                Post Comment
+                            </button>
+                        </form>
+                    </div>
+                    <% } %>
+                    
+                    <!-- Comments List -->
+                    <% if(post.comments.length > 0){ %>
+                        <div class="space-y-3">
+                            <% for(comment of post.comments) {%>
+                            <div class="bg-gray-50 rounded-xl p-4 hover:shadow-md transition">
+                                <div class="flex items-start gap-3">
+                                    <!-- Commenter Avatar -->
+                                    <img src="<%= comment.author.image.url %>" alt="<%= comment.author.username %>" 
+                                         class="w-8 h-8 rounded-full object-cover">
+                                    
+                                    <!-- Comment Content -->
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <a href="/profile/<%= comment.author._id %>" class="font-semibold text-gray-800 hover:text-purple-600 text-sm">
+                                                <%= comment.author.username %>
+                                            </a>
+                                            <span class="text-xs text-gray-400">
+                                                <%= comment.createdAt.toLocaleDateString() %>
+                                            </span>
+                                        </div>
+                                        <p class="text-gray-700 text-sm"><%= comment.content %></p>
+                                        
+                                        <!-- Delete Comment for Author -->
+                                        <% if(currUser && currUser._id.equals(comment.author._id)) { %>
+                                        <form action="/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="post" class="mt-2">
+                                            <button class="text-xs text-red-500 hover:text-red-600 transition prevent-multi-submit">
+                                                <i class="fa-regular fa-trash-alt mr-1"></i> Delete
+                                            </button>
+                                        </form>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                        </div>
+                    <% } else { %>
+                        <!-- No Comments -->
+                        <div class="text-center py-8">
+                            <i class="fa-regular fa-comment-dots text-4xl text-gray-300 mb-2"></i>
+                            <p class="text-gray-400">No comments yet</p>
+                            <p class="text-sm text-gray-400">Be the first to comment!</p>
+                        </div>
+                    <% } %>
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
 </div>
+
+<style>
+    .like-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .like-button:active {
+        transform: scale(0.95);
+    }
+    
+    /* Custom scrollbar for comments */
+    .overflow-y-auto::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .overflow-y-auto::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    
+    .overflow-y-auto::-webkit-scrollbar-thumb {
+        background: #c084fc;
+        border-radius: 10px;
+    }
+    
+    .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+        background: #a855f7;
+    }
+</style>

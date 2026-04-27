@@ -5,7 +5,8 @@ module.exports.index = async (req, res) => {
   const allMessages = await Message.find({ receiver: req.user })
     .populate("sender")
     .populate("receiver");
-  //unique users who have sended messages
+  
+  //unique users who have sent messages
   const uniqueSendersMap = new Map();
 
   allMessages.forEach((msg) => {
@@ -26,12 +27,13 @@ module.exports.index = async (req, res) => {
   const suggestedUsers = await User.find({
     _id: { $nin: [...messagedUserIds, req.user._id] },
   });
-  //console.log(suggestedUsers);
-  //unseen meaages
+  
+  //unseen messages
   const unSeenMsg = await Message.find({
     receiver: req.user,
     isSeen: false,
   }).populate("sender");
+  
   res.render("./messages/index.ejs", {
     uniqueSenders,
     unSeenMsg,
@@ -49,13 +51,15 @@ module.exports.inbox = async (req, res) => {
       { sender: senderPerson, receiver: req.user },
     ],
   })
-    .sort({ createdAt: 1 }) // 1 = ascending, -1 = descending
+    .sort({ createdAt: 1 })
     .populate("sender")
     .populate("receiver");
+    
   await Message.updateMany(
     { sender: senderPerson, receiver: req.user, isSeen: false },
     { $set: { isSeen: true } }
   );
+  
   res.render("./messages/inbox.ejs", { senderId, allMessages, senderPerson });
 };
 
@@ -67,4 +71,31 @@ module.exports.sendMessage = async (req, res) => {
   newMsg.sender = req.user;
   await newMsg.save();
   res.redirect(`/inbox/${id}`);
+};
+
+// New: Send message via API (for real-time)
+module.exports.sendMessageAPI = async (req, res) => {
+  try {
+    const { msg } = req.body;
+    const receiverId = req.params.id;
+    const receiver = await User.findById(receiverId);
+    
+    const newMsg = new Message({
+      msg: msg,
+      sender: req.user._id,
+      receiver: receiver._id,
+      isSeen: false
+    });
+    
+    await newMsg.save();
+    
+    res.json({ 
+      success: true, 
+      messageId: newMsg._id,
+      message: newMsg
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: error.message });
+  }
 };

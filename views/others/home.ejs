@@ -1,181 +1,277 @@
 <% layout("/layouts/boilerplate") -%>
-<style>
-   .header{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-   } 
-   .shadow-sm{
-    box-shadow: 0px 2px 8px 2px black !important;
-    border: 1px solid #B44B9E !important;
-   }
-   .home-img{
-    display: inline-block;
-    height: 200px !important;
-    width: 200px !important;
-   }
-   /* Tablets (≥577px to 768px) */
-@media (min-width: 577px) and (max-width: 768px) {
-  .shadow-sm{
-    box-shadow: 0px 2px 2px 2px #B44B9E !important;
-    border: 1px solid #B44B9E !important;
-   }
-   .home-img{
-    height: 240px !important;
-    width: 240px !important;
-   }
-}
 
-/* Small laptops (≥769px to 992px) */
-@media (min-width: 769px) and (max-width: 992px) {
-  .shadow-sm{
-    box-shadow: 0px 2px 2px 2px #B44B9E !important;
-    border: 1px solid #B44B9E !important;
-    display: flex !important;
-   }
-   .home-img{
-    height: 200px !important;
-    width: 240px !important;
-   }
-}
-
-/* Desktops and up (≥993px) */
-@media (min-width: 993px) {
-  .shadow-sm{
-    box-shadow: 0px 2px 2px 2px #B44B9E !important;
-    border: 1px solid #B44B9E !important;
-    display: flex !important;
-   }
-   .home-img{
-    height: 200px !important;
-    width: 260px !important;
-   }
-}
-.shadow-sm{
-  box-shadow: 0px 2px 8px 2px black !important;
-  background-color: transparent;
- }
-</style>
-
-
-  <div class="container text-center my-2" data-aos="zoom-in" data-aos-duration="1800">
-    <div class="logo-part">
-      <img src="/logo.png" alt="Friendzone" class="img-fluid" style="max-width: 300px;">
-    </div>
-  </div>
-
-  <div class="container text-center my-2" data-aos="fade-down" data-aos-duration="800">
-    <h1 class="display-4 fw-bold">Welcome to FriendZone</h1>
-    <p class="lead text-muted">Connect, chat, and stay in touch with your friends.</p>
-  </div>
-
-  <div class="container text-center my-2" data-aos="fade-down" data-aos-duration="800">
-    <div class=" p-4 rounded">
-      <h2 class="fw-bold">
-        Hey there! 👋
-      </h2>
-      <p class="lead mb-3">
-        <span id="countUp" class="fw-bold " data-amount="100">0</span>+ awesome people have already joined <span >FriendZone</span>!
-      </p>
-      <p class="text-muted">
-        Real connections, real people. Be part of the next big community today.
-      </p>
-      <a href="/login" class="btn btn-primary btn-lg mt-3 add-btn">Join Now</a>
-    </div>
-  </div>
+<!-- Hero Section -->
+<section class="relative overflow-hidden bg-gradient-to-br from-purple-50 via-white to-pink-50">
+  <!-- Decorative Elements -->
+  <div class="absolute inset-0 bg-grid-pattern opacity-5"></div>
+  <div class="absolute top-20 left-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+  <div class="absolute top-40 right-10 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
   
-
-  <div class="container" >
-    <h2 class="text-center fw-bold mb-5">Features of FriendZone</h2>
-    <div class="row g-4">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative z-10">
+    <div class="text-center">
+      <!-- Logo -->
+      <div class="mb-8 transform hover:scale-105 transition-transform duration-300">
+        <img src="/logo.png" alt="FriendZone" class="h-28 mx-auto">
+      </div>
       
-      <!-- Secure Login & Signup -->
-      <div class="col-12 col-md-8 offset-md-1" data-aos="fade-down" data-aos-duration="800">
-        <div class="card p-4 border rounded shadow-sm ">
-          <div class="img-box">
-            <img src="images/l4.png" class="img-fluid rounded mb-3 home-img" alt="Secure Login">
-          </div>
-          <div class="col-12 col-md-6 offset-md-3" class="text-box">
-            <h5 class="fw-bold">Secure Login & Signup</h5>
-            <p>Your privacy is our priority. With encrypted login systems and secure session handling, your data is always protected. No one gets in except you — simple, safe, and seamless.</p>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Real-Time Chat -->
-      <div class="col-12 col-md-8 offset-md-3" data-aos="fade-down" data-aos-duration="800">
-        <div class="card p-4 border rounded shadow-sm">
-          <div class="img-box">
-            <img src="images/l1.png" class="img-fluid rounded mb-3 home-img" alt="Real-Time Chat">
-          </div>
-          <div class="col-12 col-md-6 offset-md-3" class="text-box">
-            <h5 class="fw-bold">Real-Time Chat</h5>
-          <p>Experience live chatting with zero lag. Whether it’s a group chat or one-on-one conversation, messages arrive instantly, keeping you close to your people wherever you are.</p>
+      <!-- Main Heading -->
+      <h1 class="text-5xl lg:text-7xl font-extrabold mb-6 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent animate-gradient">
+        Welcome to FriendZone
+      </h1>
+      <p class="text-xl lg:text-2xl text-gray-600 mb-8 max-w-2xl mx-auto">
+        Connect, chat, and stay in touch with your friends in a whole new way
+      </p>
+      
+      <!-- Stats Counter -->
+      <div class="inline-block bg-white rounded-2xl shadow-lg px-8 py-6 mb-8">
+        <div class="flex items-center space-x-3">
+          <i class="fa-solid fa-users text-4xl text-purple-500"></i>
+          <div>
+            <span id="countUp" class="text-4xl font-bold text-purple-600">0</span>
+            <span class="text-2xl text-gray-600">+</span>
+            <p class="text-sm text-gray-500 mt-1">Awesome people joined</p>
           </div>
         </div>
       </div>
-  
-      <!-- Add & Connect -->
-      <div class="col-12 col-md-8 offset-md-1" data-aos="fade-down" data-aos-duration="800">
-        <div class="card p-4 border rounded shadow-sm ">
-          <div class="img-box">
-            <img src="images/l6.png" class="img-fluid rounded mb-3 home-img" alt="Connect Friends">
-          </div>
-          <div class="col-12 col-md-6 offset-md-3" class="text-box">
-            <h5 class="fw-bold">Add & Connect with Friends</h5>
-          <p>Find friends, send requests, and build your network with ease. Whether you're reconnecting with old friends or making new ones, FriendZone makes the connection smooth and natural.</p>
-          </div>
-        </div>
+      
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/login" class="group relative inline-flex items-center justify-center px-8 py-3 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
+          <span class="relative z-10">Get Started</span>
+          <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-200"></i>
+          <div class="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+        </a>
+        <a href="#features" class="inline-flex items-center justify-center px-8 py-3 text-lg font-medium text-purple-600 bg-white border-2 border-purple-200 rounded-full hover:border-purple-400 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
+          <i class="fa-solid fa-play mr-2"></i>
+          See Features
+        </a>
       </div>
-  
-      <!-- Share Moments -->
-      <div class="col-12 col-md-8 offset-md-3" data-aos="fade-down" data-aos-duration="800">
-        <div class="card p-4 border rounded shadow-sm ">
-          <div class="img-box">
-            <img src="images/l5.png" class="img-fluid rounded mb-3 home-img" alt="Share Moments">
-          </div>
-          <div class="col-12 col-md-6 offset-md-3" class="text-box">
-            <h5 class="fw-bold">Share Moments</h5>
-          <p>Express yourself! Post photos, thoughts, or updates to your personal timeline. Friends can like, comment, and stay connected with the moments that matter most in your life.</p>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Personalized Feed -->
-      <div class="col-12 col-md-8 offset-md-1" data-aos="fade-down" data-aos-duration="800">
-        <div class="card p-4 border rounded shadow-sm ">
-          <div  class="img-box">
-            <img src="images/l3.png" class="img-fluid rounded mb-3 home-img" alt="Personalized Feed">
-          </div>
-          <div class="col-12 col-md-6 offset-md-3" class="text-box">
-            <h5 class="fw-bold ">Personalized Feed</h5>
-            <p>No more clutter! Your feed is designed to show what you actually care about — updates from people you interact with the most. It's smart, dynamic, and made for *you*.</p>
-          </div>
-        </div>
-      </div>
-  
-      <!-- UI Design -->
-      <div class="col-12 col-md-8 offset-md-3" data-aos="fade-down" data-aos-duration="800">
-        <div class="card p-4 border rounded shadow-sm ">
-          <div class="img-box">
-            <img src="images/l7.png" class="img-fluid rounded mb-3 home-img" alt="User Interface">
-          </div>
-          <div class="col-12 col-md-6 offset-md-3" class="text-box">
-            <h5 class="fw-bold">Clean, Friendly UI</h5>
-          <p>Simple, elegant, and mobile-ready. The FriendZone interface is crafted with clarity in mind — easy navigation, clean layouts, and a smooth experience across devices.</p>
-          </div>
-        </div>
-      </div>
-  
     </div>
   </div>
-  
+</section>
 
-  <!-- <div class="welcome-card">
-    <h1>Welcome to FriendZone</h1>
-    <p>Connect, chat, and stay in touch with your friends.</p>
-    <div class="d-grid gap-2 mt-4">
-      <a href="/login" class="btn btn-login btn-lg">Login</a>
-      <a href="/signup" class="btn btn-signup btn-lg">Sign Up</a>
+<!-- Features Section -->
+<section id="features" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+        Amazing Features
+      </h2>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Everything you need to stay connected with your friends and family
+      </p>
+      <div class="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto mt-6 rounded-full"></div>
     </div>
-  </div> -->
+
+    <!-- Features Grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <!-- Feature 1: Secure Login -->
+      <div class="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2">
+        <div class="relative h-56 overflow-hidden">
+          <img src="images/l4.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Secure Login">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <div class="bg-purple-500 text-white p-2 rounded-lg shadow-lg">
+              <i class="fa-solid fa-lock text-xl"></i>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Secure Login & Signup</h3>
+          <p class="text-gray-600 leading-relaxed">
+            Your privacy is our priority. With encrypted login systems and secure session handling, your data is always protected. Simple, safe, and seamless.
+          </p>
+        </div>
+      </div>
+
+      <!-- Feature 2: Real-Time Chat -->
+      <div class="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2">
+        <div class="relative h-56 overflow-hidden">
+          <img src="images/l1.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Real-Time Chat">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <div class="bg-purple-500 text-white p-2 rounded-lg shadow-lg">
+              <i class="fa-solid fa-comments text-xl"></i>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Real-Time Chat</h3>
+          <p class="text-gray-600 leading-relaxed">
+            Experience live chatting with zero lag. Messages arrive instantly, keeping you close to your people wherever you are.
+          </p>
+        </div>
+      </div>
+
+      <!-- Feature 3: Connect with Friends -->
+      <div class="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2">
+        <div class="relative h-56 overflow-hidden">
+          <img src="images/l6.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Connect Friends">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <div class="bg-purple-500 text-white p-2 rounded-lg shadow-lg">
+              <i class="fa-solid fa-user-plus text-xl"></i>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Add & Connect with Friends</h3>
+          <p class="text-gray-600 leading-relaxed">
+            Find friends, send requests, and build your network with ease. FriendZone makes connections smooth and natural.
+          </p>
+        </div>
+      </div>
+
+      <!-- Feature 4: Share Moments -->
+      <div class="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2">
+        <div class="relative h-56 overflow-hidden">
+          <img src="images/l5.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Share Moments">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <div class="bg-purple-500 text-white p-2 rounded-lg shadow-lg">
+              <i class="fa-solid fa-camera-retro text-xl"></i>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Share Moments</h3>
+          <p class="text-gray-600 leading-relaxed">
+            Post photos, thoughts, or updates to your timeline. Friends can like, comment, and stay connected with moments that matter.
+          </p>
+        </div>
+      </div>
+
+      <!-- Feature 5: Personalized Feed -->
+      <div class="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2">
+        <div class="relative h-56 overflow-hidden">
+          <img src="images/l3.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Personalized Feed">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <div class="bg-purple-500 text-white p-2 rounded-lg shadow-lg">
+              <i class="fa-solid fa-newspaper text-xl"></i>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Personalized Feed</h3>
+          <p class="text-gray-600 leading-relaxed">
+            Your feed shows what you actually care about — updates from people you interact with the most. Smart and dynamic.
+          </p>
+        </div>
+      </div>
+
+      <!-- Feature 6: Clean UI -->
+      <div class="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2">
+        <div class="relative h-56 overflow-hidden">
+          <img src="images/l7.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="User Interface">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <div class="bg-purple-500 text-white p-2 rounded-lg shadow-lg">
+              <i class="fa-solid fa-palette text-xl"></i>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Clean, Friendly UI</h3>
+          <p class="text-gray-600 leading-relaxed">
+            Simple, elegant, and mobile-ready. The FriendZone interface is crafted with clarity and smooth experience across devices.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="py-20 bg-gradient-to-r from-purple-600 to-pink-600 relative overflow-hidden">
+  <div class="absolute inset-0 bg-black opacity-10"></div>
+  <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
+    <h2 class="text-4xl lg:text-5xl font-bold text-white mb-6">
+      Ready to Join the Community?
+    </h2>
+    <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+      Be part of something amazing. Join thousands of users already connecting on FriendZone.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="/signup" class="group inline-flex items-center justify-center px-8 py-3 text-lg font-medium text-purple-600 bg-white rounded-full hover:bg-gray-50 shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
+        <i class="fa-solid fa-user-plus mr-2"></i>
+        Create Free Account
+        <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-200"></i>
+      </a>
+      <a href="/login" class="inline-flex items-center justify-center px-8 py-3 text-lg font-medium text-white border-2 border-white rounded-full hover:bg-white hover:text-purple-600 transform hover:-translate-y-0.5 transition-all duration-200">
+        <i class="fa-solid fa-sign-in-alt mr-2"></i>
+        Login
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CountUp Animation Script -->
+<script>
+  // Simple countup animation
+  function animateCountUp(element, target) {
+    let current = 0;
+    const increment = target / 50;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        element.textContent = target;
+        clearInterval(timer);
+      } else {
+        element.textContent = Math.floor(current);
+      }
+    }, 20);
+  }
+
+  // Trigger countup when element is in viewport
+  const countElement = document.getElementById('countUp');
+  const targetCount = 100;
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCountUp(entry.target, targetCount);
+        observer.unobserve(entry.target);
+      }
+    });
+  });
+  
+  if (countElement) {
+    observer.observe(countElement);
+  }
+</script>
+
+<style>
+  @keyframes blob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+  }
+  
+  @keyframes gradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+  
+  .animate-gradient {
+    background-size: 200% auto;
+    animation: gradient 3s ease infinite;
+  }
+  
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  
+  .bg-grid-pattern {
+    background-image: linear-gradient(to right, #e5e7eb 1px, transparent 1px),
+                      linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+</style>

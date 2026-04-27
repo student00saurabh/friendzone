@@ -4,6 +4,12 @@ if (process.env.NODE_ENV != "production") {
 
 const express = require("express");
 const app = express();
+const http = require("http");
+const socketIo = require("socket.io");
+
+const server = http.createServer(app);
+const io = socketIo(server);
+
 const path = require("path");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
@@ -42,6 +48,7 @@ async function main() {
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json()); // Add this for JSON parsing
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
@@ -88,9 +95,13 @@ app.use((req, res, next) => {
 });
 
 app.use(async (req, res, next) => {
-  const receivedMessages = await Message.find({ receiver: req.user });
-  const unSeen = receivedMessages.filter((msg) => !msg.isSeen);
-  res.locals.isSeen = unSeen.length;
+  if (req.user) {
+    const receivedMessages = await Message.find({ receiver: req.user });
+    const unSeen = receivedMessages.filter((msg) => !msg.isSeen);
+    res.locals.isSeen = unSeen.length;
+  } else {
+    res.locals.isSeen = 0;
+  }
   next();
 });
 
@@ -110,12 +121,47 @@ app.use("/", othersRouter);
 app.use("/inbox", messageRouter);
 app.use("/", sitemapRoutes);
 
-//error checker
-// app.use((req, res, next) => {
-//   console.log("Incoming request:", req.method, req.path);
-//   next();
-// });
+// Socket.IO connection handling
+io.on("connection", (socket) => {
+  console.log("New client connected:", socket.id);
+  
+  // User joins a room (conversation)
+  socket.on("join-room", (roomId) => {
+    socket.join(roomId);
+    console.log(`User joined room: ${roomId}`);
+    
+    // Broadcast online status
+    socket.broadcast.emit("user-online", socket.userId);
+  });
+  
+  // Handle sending messages
+  socket.on("send-message", (data) => {
+    io.to(data.roomId).emit("receive-message", {
+      msg: data.message.msg,
+      sender: data.message.sender,
+      receiver: data.message.receiver,
+      createdAt: data.message.createdAt
+    });
+  });
+  
+  // Handle typing indicator (optional)
+  socket.on("typing", (data) => {
+    socket.to(data.roomId).emit("user-typing", {
+      userId: data.userId,
+      isTyping: data.isTyping
+    });
+  });
+  
+  socket.on("disconnect", () => {
+    console.log("Client disconnected:", socket.id);
+    socket.broadcast.emit("user-offline", socket.userId);
+  });
+});
 
+// Make io accessible to routes (optional)
+app.set("io", io);
+
+//error checker
 app.all(/.*/, (req, res, next) => {
   next(new ExpressError(404, "Page not found!"));
 });
@@ -123,9 +169,9 @@ app.all(/.*/, (req, res, next) => {
 app.use((err, req, res, next) => {
   let { statusCode = 500, message = "Something went wrong!" } = err;
   res.render("error.ejs", { message });
-  // res.status(statusCode).send(message);
 });
 
-app.listen(8080, () => {
-  console.log(`friend Zone is working at ${8080}`);
+// Change from app.listen to server.listen
+server.listen(8080, () => {
+  console.log(`Friend Zone is working on port 8080`);
 });

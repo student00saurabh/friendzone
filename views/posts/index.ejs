@@ -1,70 +1,136 @@
 <% layout("/layouts/boilerplate") -%>
-<div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 mt-3 g-3">
-	<% let delay = 0; %> <!-- ✅ Define delay outside the loop -->
-	<% for(const post of allPosts){ %>
-		<div class="col"> <!-- ✅ Bootstrap grid works here -->
-			<div class="card posts-card"
-				 data-aos="fade-right"
-				 data-aos-delay="<%= delay %>"
-				 data-aos-duration="800">
-				
-				<% delay += 300; %> <!-- ✅ Increment delay for next post -->
 
-				<% if(post.owner){ %>
-					<a class="post-owner-card" href="/profile/<%= post.owner._id %>">
-						<img src="<%= post.owner.image.url %>" alt="profile" class="profile-image">
-						<%= post.owner.username %>
-					</a>
-				<% } %>
-
-				<a href="/posts/<%= post._id %>" class="posts-link">
-				  	<img src="<%= post.image.url %>" class="card-img-top" alt="post_image" style="height: 20rem;">
-				</a>
-
-				<div class="card-body">
-					<p><b><%= post.description %></b></p>
-
-					<%
-  						let likeUser = null;
-  						let alreadyLiked = post.likes.some((like) => {
-    						if (currUser && like.cliker == currUser._id) {
-      							likeUser = like;
-      							return true;
-    						}
-    						return false;
-  						});
-					%>
-
-					<p>
-						<% if(currUser && (!alreadyLiked)){%>
-							<form action="/posts/<%= post._id %>/likes" class="like-unlike-form mb-3" method="post">
-								<button class="like-button prevent-multi-submit" type="submit">
-									<i class="fa-regular fa-heart" id="icon"></i>
-								</button>
-								<%= post.likes.length %>
-							</form>
-						<% } %>
-
-						<% if(currUser && alreadyLiked) { %>
-							<form action="/posts/<%= post._id %>/likes/<%= likeUser._id %>?_method=DELETE" class="like-unlike-form mb-3" method="post">
-								<button class="like-button prevent-multi-submit" type="submit">
-									<i class="fa-solid fa-heart unlike-heart"></i>
-								</button>
-								<%= post.likes.length %>
-							</form>
-						<% } %>
-
-						&nbsp;&nbsp;
-						<a href="/posts/<%= post._id %>" class="posts-link">
-							<i class="fa-regular fa-comment"></i> Comments
-						</a>
-
-						<span class="time-date">
-							<%= new Date(post.createdAt).toLocaleString() %>
-						</span>
-					</p>
-				</div>
-	  		</div>
-		</div>
-	<% } %>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Create Post Button (Floating Action for Mobile) -->
+    <div class="fixed bottom-6 right-6 md:hidden z-40">
+        <a href="/posts/new" class="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105">
+            <i class="fa-solid fa-plus text-xl"></i>
+        </a>
+    </div>
+    
+    <!-- Posts Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% let delay = 0; %>
+        <% for(const post of allPosts){ %>
+        
+        <!-- Post Card -->
+        <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1"
+             data-aos="fade-up"
+             data-aos-delay="<%= delay %>"
+             data-aos-duration="600">
+            
+            <% delay += 100; %>
+            
+            <!-- Post Owner Info -->
+            <% if(post.owner){ %>
+            <div class="flex items-center gap-3 p-4 border-b border-gray-100">
+                <a href="/profile/<%= post.owner._id %>" class="flex items-center gap-3 group">
+                    <img src="<%= post.owner.image.url %>" alt="<%= post.owner.username %>" 
+                         class="w-10 h-10 rounded-full object-cover ring-2 ring-purple-200 group-hover:ring-purple-400 transition-all duration-200">
+                    <span class="font-semibold text-gray-800 group-hover:text-purple-600 transition-colors duration-200">
+                        <%= post.owner.username %>
+                    </span>
+                </a>
+            </div>
+            <% } %>
+            
+            <!-- Post Image -->
+            <a href="/posts/<%= post._id %>" class="block overflow-hidden bg-gray-100">
+                <img src="<%= post.image.url %>" alt="post_image" 
+                     class="w-full h-64 object-cover hover:scale-105 transition-transform duration-500">
+            </a>
+            
+            <!-- Post Body -->
+            <div class="p-4">
+                <!-- Description -->
+                <p class="text-gray-800 mb-3 line-clamp-2">
+                    <%= post.description %>
+                </p>
+                
+                <!-- Like and Comment Actions -->
+                <div class="flex items-center justify-between pt-2 border-t border-gray-100">
+                    <div class="flex items-center gap-4">
+                        <%
+                            let likeUser = null;
+                            let alreadyLiked = post.likes.some((like) => {
+                                if (currUser && like.cliker == currUser._id) {
+                                    likeUser = like;
+                                    return true;
+                                }
+                                return false;
+                            });
+                        %>
+                        
+                        <% if(currUser && (!alreadyLiked)){ %>
+                            <form action="/posts/<%= post._id %>/likes" method="post" class="inline">
+                                <button type="submit" class="like-button flex items-center gap-1 text-gray-500 hover:text-purple-600 transition-all duration-200 group">
+                                    <i class="fa-regular fa-heart text-xl group-hover:scale-110 transition-transform"></i>
+                                    <span class="text-sm"><%= post.likes.length %></span>
+                                </button>
+                            </form>
+                        <% } %>
+                        
+                        <% if(currUser && alreadyLiked) { %>
+                            <form action="/posts/<%= post._id %>/likes/<%= likeUser._id %>?_method=DELETE" method="post" class="inline">
+                                <button type="submit" class="like-button flex items-center gap-1 text-red-500 hover:text-red-600 transition-all duration-200 group">
+                                    <i class="fa-solid fa-heart text-xl group-hover:scale-110 transition-transform"></i>
+                                    <span class="text-sm"><%= post.likes.length %></span>
+                                </button>
+                            </form>
+                        <% } %>
+                        
+                        <a href="/posts/<%= post._id %>" class="flex items-center gap-1 text-gray-500 hover:text-purple-600 transition-all duration-200">
+                            <i class="fa-regular fa-comment text-xl"></i>
+                            <span class="text-sm">Comment</span>
+                        </a>
+                    </div>
+                    
+                    <!-- Date/Time -->
+                    <span class="text-xs text-gray-400">
+                        <%= new Date(post.createdAt).toLocaleDateString() %>
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <% } %>
+    </div>
+    
+    <!-- No Posts Message -->
+    <% if(allPosts.length === 0) { %>
+    <div class="text-center py-16">
+        <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fa-solid fa-newspaper text-4xl text-gray-400"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-600 mb-2">No Posts Yet</h3>
+        <p class="text-gray-500">Be the first to create a post!</p>
+        <a href="/posts/new" class="inline-block mt-4 px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-lg transition-all duration-200">
+            <i class="fa-solid fa-plus mr-2"></i>
+            Create Post
+        </a>
+    </div>
+    <% } %>
+    
 </div>
+
+<style>
+    /* Line clamp for description */
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    /* Like button styling */
+    .like-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .like-button:active {
+        transform: scale(0.95);
+    }
+</style>

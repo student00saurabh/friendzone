@@ -1,8 +1,27 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="row">
- 	<div class="alert alert-danger col-6 offset-3" role="alert">
-		<!-- <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg> -->
-  		<h4 class="alert-heading"><%= message %></h4>
-	</div>
+<div class="min-h-[70vh] flex items-center justify-center px-4">
+    <div class="max-w-md w-full text-center">
+        
+        <!-- Error Icon -->
+        <div class="mb-6">
+            <div class="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto">
+                <i class="fa-solid fa-circle-exclamation text-5xl text-red-500"></i>
+            </div>
+        </div>
+        
+        <!-- Error Message -->
+        <div class="bg-red-50 border-l-4 border-red-500 rounded-lg p-6">
+            <h4 class="text-red-700 font-semibold text-lg"><%= message %></h4>
+        </div>
+        
+        <!-- Optional: Back to Home Button -->
+        <div class="mt-6">
+            <a href="/posts" class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200">
+                <i class="fa-solid fa-arrow-left mr-2"></i>
+                Go Back Home
+            </a>
+        </div>
+        
+    </div>
 </div>

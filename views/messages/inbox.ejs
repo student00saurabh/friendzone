@@ -1,37 +1,243 @@
 <% layout("/layouts/boilerplate") -%>
-    <div class="row full-height">
-        <div class="col-12 col-md-6 message-height">
-    		<div class="card h-100">
-				<p class="card-header"><img src="<%= senderPerson.image.url %>" alt="profile" class="profile-image"><%= senderPerson.username %></p>
-				<div class="card-body scrollable-content p-3">
-					<% let delay = 0 %>
-				<% for(sm of allMessages){ %>
-						<% if(sm.sender.equals(currUser)){ %>
-							<div class="d-flex justify-content-end" data-aos="fade-down" data-aos-delay="<%= delay %>" data-aos-duration="800">
-  								<div class="card-text sent-msg"><%= sm.msg %> <br>
-									<span class="ms-time-date">
-									<%= new Date(sm.createdAt).toLocaleString() %>
-								</span>
-								</div>
-							</div>
-						<% } else {%>
-							<div class="d-flex justify-content-start" data-aos="fade-down" data-aos-delay="<%= delay %>" data-aos-duration="800">
-  								<div class="card-text received-msg"><%= sm.msg %> <br>
-									<span class="ms-time-date">
-									<%= new Date(sm.createdAt).toLocaleString() %>
-								</span>
-								</div>
-							</div>
-						<% } %>
-						<% delay += 400 %>
-				<% } %>
-			</div>
 
-			<form action="/inbox/<%= senderId %>" method="POST" novalidate class="needs-validation message-form col-12 col-md-6 offset-md-3">
-					<input type="text" name="msg"  class="form-control message-inp" required>
-					<button class="btn btn-dark add-btn message-btn prevent-multi-submit"><i class="fa-solid fa-circle-chevron-right"></i></button>
-			</form>
-		</div>
-		</div>
-	</div>
+<div class="max-w-6xl mx-auto px-4 py-6 h-[calc(100vh-120px)]">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden h-full flex flex-col">
+        
+        <!-- Chat Header -->
+        <div class="bg-gradient-to-r from-purple-600 to-pink-600 px-5 py-3 flex items-center gap-3">
+            <img src="<%= senderPerson.image.url %>" alt="<%= senderPerson.username %>" 
+                 class="w-10 h-10 rounded-full object-cover border-2 border-white">
+            <div>
+                <h5 class="text-white font-semibold"><%= senderPerson.username %></h5>
+                <p class="text-purple-100 text-xs" id="online-status">
+                    <i class="fa-regular fa-circle"></i> Offline
+                </p>
+            </div>
+        </div>
+        
+        <!-- Messages Container -->
+        <div id="messages-container" class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
+            <% let delay = 0 %>
+            <% for(sm of allMessages){ %>
+                <% if(sm.sender.equals(currUser)){ %>
+                    <!-- Sent Message -->
+                    <div class="flex justify-end" data-aos="fade-down" data-aos-delay="<%= delay %>" data-aos-duration="800">
+                        <div class="max-w-xs lg:max-w-md bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl rounded-br-none px-4 py-2 shadow-md">
+                            <p class="text-sm"><%= sm.msg %></p>
+                            <span class="text-xs text-purple-200 mt-1 block">
+                                <%= new Date(sm.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) %>
+                            </span>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <!-- Received Message -->
+                    <div class="flex justify-start" data-aos="fade-down" data-aos-delay="<%= delay %>" data-aos-duration="800">
+                        <div class="max-w-xs lg:max-w-md bg-white border border-gray-200 rounded-2xl rounded-bl-none px-4 py-2 shadow-sm">
+                            <p class="text-sm text-gray-800"><%= sm.msg %></p>
+                            <span class="text-xs text-gray-400 mt-1 block">
+                                <%= new Date(sm.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) %>
+                            </span>
+                        </div>
+                    </div>
+                <% } %>
+                <% delay += 200 %>
+            <% } %>
+        </div>
+        
+        <!-- Message Input Form -->
+        <div class="border-t border-gray-200 p-4 bg-white">
+            <form id="message-form" class="flex gap-2">
+                <input type="text" name="msg" id="message-input" 
+                       class="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition"
+                       placeholder="Type a message..." 
+                       autocomplete="off"
+                       required>
+                <button type="submit" id="send-btn" 
+                        class="prevent-multi-submit w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full hover:from-purple-700 hover:to-pink-700 transition shadow-md flex items-center justify-center">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+        
+    </div>
 </div>
+
+<!-- Socket.IO Script -->
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+    // Get sender and receiver IDs
+    const senderId = '<%= currUser._id %>';
+    const receiverId = '<%= senderId %>';
+    
+    // Connect to Socket.IO
+    const socket = io();
+    
+    // Join the room (combination of both user IDs sorted)
+    const roomId = [senderId, receiverId].sort().join('-');
+    socket.emit('join-room', roomId);
+    
+    // Scroll to bottom of messages
+    const messagesContainer = document.getElementById('messages-container');
+    function scrollToBottom() {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    scrollToBottom();
+    
+    // Send message form submission
+    const messageForm = document.getElementById('message-form');
+    const messageInput = document.getElementById('message-input');
+    const sendBtn = document.getElementById('send-btn');
+    
+    messageForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const msg = messageInput.value.trim();
+        if (!msg) return;
+        
+        // Disable button temporarily
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+        
+        try {
+            // Send via AJAX to save in database
+            const response = await fetch(`/inbox/${receiverId}/send`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ msg: msg })
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                
+                // Emit socket event for real-time delivery
+                socket.emit('send-message', {
+                    roomId: roomId,
+                    message: {
+                        _id: data.messageId,
+                        msg: msg,
+                        sender: senderId,
+                        receiver: receiverId,
+                        createdAt: new Date()
+                    }
+                });
+                
+                // Add message to UI immediately
+                addMessageToUI(msg, true, new Date());
+                messageInput.value = '';
+                scrollToBottom();
+            }
+        } catch (error) {
+            console.error('Error sending message:', error);
+            alert('Failed to send message. Please try again.');
+        } finally {
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
+            messageInput.focus();
+        }
+    });
+    
+    // Listen for incoming messages
+    socket.on('receive-message', (data) => {
+        if (data.sender === receiverId) {
+            addMessageToUI(data.msg, false, new Date(data.createdAt));
+            scrollToBottom();
+            
+            // Play notification sound (optional)
+            // const audio = new Audio('/notification.mp3');
+            // audio.play();
+        }
+    });
+    
+    // Listen for online status
+    socket.on('user-online', (userId) => {
+        if (userId === receiverId) {
+            const statusEl = document.getElementById('online-status');
+            statusEl.innerHTML = '<i class="fa-solid fa-circle text-green-400 text-xs"></i> Online';
+        }
+    });
+    
+    socket.on('user-offline', (userId) => {
+        if (userId === receiverId) {
+            const statusEl = document.getElementById('online-status');
+            statusEl.innerHTML = '<i class="fa-regular fa-circle"></i> Offline';
+        }
+    });
+    
+    // Function to add message to UI
+    function addMessageToUI(msg, isSent, time) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `flex ${isSent ? 'justify-end' : 'justify-start'} animate-fade-in`;
+        
+        const timeString = new Date(time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        
+        if (isSent) {
+            messageDiv.innerHTML = `
+                <div class="max-w-xs lg:max-w-md bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl rounded-br-none px-4 py-2 shadow-md">
+                    <p class="text-sm">${escapeHtml(msg)}</p>
+                    <span class="text-xs text-purple-200 mt-1 block">${timeString}</span>
+                </div>
+            `;
+        } else {
+            messageDiv.innerHTML = `
+                <div class="max-w-xs lg:max-w-md bg-white border border-gray-200 rounded-2xl rounded-bl-none px-4 py-2 shadow-sm">
+                    <p class="text-sm text-gray-800">${escapeHtml(msg)}</p>
+                    <span class="text-xs text-gray-400 mt-1 block">${timeString}</span>
+                </div>
+            `;
+        }
+        
+        messagesContainer.appendChild(messageDiv);
+    }
+    
+    // Helper function to escape HTML
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    // Enter key to send
+    messageInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            messageForm.dispatchEvent(new Event('submit'));
+        }
+    });
+    
+    // Focus on input
+    messageInput.focus();
+</script>
+
+<style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-out;
+    }
+    
+    /* Custom scrollbar */
+    .overflow-y-auto::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .overflow-y-auto::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    
+    .overflow-y-auto::-webkit-scrollbar-thumb {
+        background: #c084fc;
+        border-radius: 10px;
+    }
+</style>

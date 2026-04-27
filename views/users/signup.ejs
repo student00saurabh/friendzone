@@ -1,100 +1,329 @@
 <% layout("/layouts/boilerplate") -%>
 
-<h1 class="col-12 col-md-6 offset-md-3">Create Account on Friend-Zone!</h1>
-
-<div class="row mt-3">
-  <div class="col-12 col-md-6 offset-md-3" data-aos="fade-down" data-aos-duration="800">
-    <div class="signup-form">
-        <form action="/signup" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
-            <!-- username -->
-			<div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input
-                    type="text"
-					id="username"
-                    name="username"
-                    class="form-control"
-                    required>
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
+<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto" data-aos="fade-up" data-aos-duration="800">
+        
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="flex justify-center mb-4">
+                <div class="h-16 w-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+                    <i class="fa-solid fa-user-plus text-3xl text-white"></i>
                 </div>
-				<!-- email -->
-				<div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input
-                    type="email"
-					id="email"
-                    name="email"
-                    class="form-control"
-                    required>
-                </div>
-
-                <!-- gender -->
-                 <div class="mb-3">
-                    <label class="form-label">Gender</label><br>
-  
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="gender" id="male" value="Male" required>
-                        <label class="form-check-label" for="male">Male</label>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="gender" id="female" value="Female" required>
-                        <label class="form-check-label" for="female">Female</label>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="gender" id="other" value="Other" required>
-                        <label class="form-check-label" for="other">Other</label>
-                    </div>
-                </div>
-
-                <!-- age -->
-                 <div class="mb-3">
-                <label for="age" class="form-label">Age</label>
-                <input
-                    type="number"
-					id="age"
-                    name="age"
-                    class="form-control"
-                    required>
-                </div>
-
-                <!-- about -->
-                 <div class="mb-3">
-                <label for="about" class="form-label">About</label>
-                <textarea
-                    type="text"
-					id="about"
-                    name="about"
-                    class="form-control"
-                    required></textarea>
-                </div>
-
-                <!-- image -->
-                 <div class="mb-3">
-                    <label for="image" class="form-label">Upload an Image</label>
-            		<input 
-                    type="file"
-                     name="image"
-                      class="form-control"
-                       required>
-				</div>
-
-				<!-- password -->
-				 <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input
-                    type="password"
-					id="password"
-                    name="password"
-                    class="form-control"
-                    required>
-                </div>
-				<button class="btn btn-success prevent-multi-submit">Signup</button>
-            </form>
-             <p>You have an existing account!<a href="/login" class="posts-link"> <button class="btn btn-sm btn-outline-success" style="color: #fff !important">login</button></a></p>
             </div>
+            <h2 class="text-3xl font-extrabold text-gray-900">
+                Create Account
+            </h2>
+            <p class="mt-2 text-sm text-gray-600">
+                Join FriendZone and start connecting with friends
+            </p>
         </div>
+        
+        <!-- Signup Form -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <form action="/signup" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                
+                <div class="p-6 md:p-8 space-y-6">
+                    
+                    <!-- Username Field -->
+                    <div class="space-y-2">
+                        <label for="username" class="block text-sm font-medium text-gray-700">
+                            <i class="fa-solid fa-user mr-2 text-purple-500"></i>
+                            Username
+                        </label>
+                        <div class="relative">
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                class="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
+                                placeholder="Choose a unique username"
+                                required
+                            >
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <i class="fa-solid fa-check-circle text-green-500 opacity-0 transition-opacity duration-200" id="username-check"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500">This will be your public display name</p>
+                    </div>
+                    
+                    <!-- Email Field -->
+                    <div class="space-y-2">
+                        <label for="email" class="block text-sm font-medium text-gray-700">
+                            <i class="fa-solid fa-envelope mr-2 text-purple-500"></i>
+                            Email Address
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
+                            placeholder="you@example.com"
+                            required
+                        >
+                        <p class="text-xs text-gray-500">We'll never share your email with anyone else</p>
+                    </div>
+                    
+                    <!-- Password Field -->
+                    <div class="space-y-2">
+                        <label for="password" class="block text-sm font-medium text-gray-700">
+                            <i class="fa-solid fa-lock mr-2 text-purple-500"></i>
+                            Password
+                        </label>
+                        <div class="relative">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
+                                placeholder="Create a strong password"
+                                required
+                            >
+                            <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                <i class="fa-solid fa-eye text-gray-400 hover:text-gray-600 transition-colors duration-200"></i>
+                            </button>
+                        </div>
+                        <div class="password-strength mt-2">
+                            <div class="flex space-x-1">
+                                <div class="strength-bar flex-1 h-1 rounded-full bg-gray-200 transition-all duration-300"></div>
+                                <div class="strength-bar flex-1 h-1 rounded-full bg-gray-200 transition-all duration-300"></div>
+                                <div class="strength-bar flex-1 h-1 rounded-full bg-gray-200 transition-all duration-300"></div>
+                                <div class="strength-bar flex-1 h-1 rounded-full bg-gray-200 transition-all duration-300"></div>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1" id="password-strength-text">Password strength</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Gender Field -->
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">
+                            <i class="fa-solid fa-venus-mars mr-2 text-purple-500"></i>
+                            Gender
+                        </label>
+                        <div class="flex flex-wrap gap-4">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="gender" value="Male" class="form-radio text-purple-600 focus:ring-purple-500 h-4 w-4" required>
+                                <span class="ml-2 text-gray-700">Male</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="gender" value="Female" class="form-radio text-purple-600 focus:ring-purple-500 h-4 w-4" required>
+                                <span class="ml-2 text-gray-700">Female</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="gender" value="Other" class="form-radio text-purple-600 focus:ring-purple-500 h-4 w-4" required>
+                                <span class="ml-2 text-gray-700">Other</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Age Field -->
+                    <div class="space-y-2">
+                        <label for="age" class="block text-sm font-medium text-gray-700">
+                            <i class="fa-solid fa-cake-candles mr-2 text-purple-500"></i>
+                            Age
+                        </label>
+                        <input
+                            type="number"
+                            id="age"
+                            name="age"
+                            class="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
+                            placeholder="Your age"
+                            min="13"
+                            max="120"
+                            required
+                        >
+                        <p class="text-xs text-gray-500">Must be at least 13 years old</p>
+                    </div>
+                    
+                    <!-- About Field -->
+                    <div class="space-y-2">
+                        <label for="about" class="block text-sm font-medium text-gray-700">
+                            <i class="fa-solid fa-address-card mr-2 text-purple-500"></i>
+                            About You
+                        </label>
+                        <textarea
+                            id="about"
+                            name="about"
+                            rows="3"
+                            class="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200 resize-none"
+                            placeholder="Tell us a little about yourself..."
+                            required
+                        ></textarea>
+                        <p class="text-xs text-gray-500">
+                            <span id="char-count">0</span>/200 characters
+                        </p>
+                    </div>
+                    
+                    <!-- Profile Image Field -->
+                    <div class="space-y-2">
+                        <label for="image" class="block text-sm font-medium text-gray-700">
+                            <i class="fa-solid fa-camera mr-2 text-purple-500"></i>
+                            Profile Picture
+                        </label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-purple-500 transition-colors duration-200">
+                            <div class="space-y-1 text-center">
+                                <i class="fa-solid fa-cloud-upload-alt text-3xl text-gray-400"></i>
+                                <div class="flex text-sm text-gray-600">
+                                    <label for="image" class="relative cursor-pointer bg-white rounded-md font-medium text-purple-600 hover:text-purple-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-purple-500">
+                                        <span>Upload a file</span>
+                                        <input id="image" name="image" type="file" class="sr-only" accept="image/*" required>
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-500">
+                                    PNG, JPG, JPEG up to 5MB
+                                </p>
+                                <div id="image-preview" class="hidden mt-2">
+                                    <img id="preview-img" class="h-20 w-20 rounded-full object-cover mx-auto" alt="Preview">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="prevent-multi-submit w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transform transition-all duration-200 hover:scale-[1.02]">
+                        <i class="fa-solid fa-user-plus mr-2"></i>
+                        Create Account
+                    </button>
+                    
+                    <!-- Login Link -->
+                    <div class="text-center">
+                        <p class="text-sm text-gray-600">
+                            Already have an account?
+                            <a href="/login" class="font-medium text-purple-600 hover:text-purple-500 transition-colors duration-200 ml-1">
+                                Sign in instead
+                                <i class="fa-solid fa-arrow-right ml-1 text-xs"></i>
+                            </a>
+                        </p>
+                    </div>
+                    
+                </div>
+            </form>
+        </div>
+        
     </div>
+</div>
+
+<script>
+    // Toggle password visibility
+    const togglePassword = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('password');
+    
+    if (togglePassword && passwordInput) {
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.querySelector('i').classList.toggle('fa-eye');
+            this.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+    }
+    
+    // Password strength checker
+    const passwordStrength = document.getElementById('password');
+    const strengthBars = document.querySelectorAll('.strength-bar');
+    const strengthText = document.getElementById('password-strength-text');
+    
+    if (passwordStrength) {
+        passwordStrength.addEventListener('input', function() {
+            const password = this.value;
+            let strength = 0;
+            
+            if (password.length >= 6) strength++;
+            if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+            if (password.match(/\d/)) strength++;
+            if (password.match(/[^a-zA-Z\d]/)) strength++;
+            
+            const colors = ['#e5e7eb', '#ef4444', '#f59e0b', '#10b981', '#10b981'];
+            const texts = ['Very Weak', 'Weak', 'Medium', 'Strong', 'Very Strong'];
+            
+            strengthBars.forEach((bar, index) => {
+                if (index < strength) {
+                    bar.style.backgroundColor = colors[strength];
+                } else {
+                    bar.style.backgroundColor = '#e5e7eb';
+                }
+            });
+            
+            strengthText.textContent = texts[strength] + ' password';
+            strengthText.style.color = colors[strength];
+        });
+    }
+    
+    // Character counter for about field
+    const aboutText = document.getElementById('about');
+    const charCount = document.getElementById('char-count');
+    
+    if (aboutText && charCount) {
+        aboutText.addEventListener('input', function() {
+            const count = this.value.length;
+            charCount.textContent = count;
+            if (count > 200) {
+                this.value = this.value.substring(0, 200);
+                charCount.textContent = 200;
+            }
+        });
+    }
+    
+    // Username validation
+    const usernameInput = document.getElementById('username');
+    const usernameCheck = document.getElementById('username-check');
+    
+    if (usernameInput && usernameCheck) {
+        usernameInput.addEventListener('input', function() {
+            if (this.value.length >= 3) {
+                usernameCheck.classList.add('opacity-100');
+            } else {
+                usernameCheck.classList.remove('opacity-100');
+            }
+        });
+    }
+    
+    // Image preview
+    const imageInput = document.getElementById('image');
+    const imagePreview = document.getElementById('image-preview');
+    const previewImg = document.getElementById('preview-img');
+    
+    if (imageInput) {
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    imagePreview.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.classList.add('hidden');
+            }
+        });
+    }
+    
+    // Auto-focus on username
+    if (usernameInput) {
+        usernameInput.focus();
+    }
+</script>
+
+<style>
+    .form-radio {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 1rem;
+        height: 1rem;
+        border: 2px solid #d1d5db;
+        border-radius: 50%;
+        background: white;
+        transition: all 0.2s;
+    }
+    
+    .form-radio:checked {
+        border-color: #8b5cf6;
+        background-color: #8b5cf6;
+        box-shadow: inset 0 0 0 3px white;
+    }
+    
+    .form-radio:focus {
+        outline: none;
+        ring: 2px solid #8b5cf6;
+    }
+</style>

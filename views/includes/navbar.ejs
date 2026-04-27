@@ -1,98 +1,209 @@
-<style>
-  .btn-search{
-    background-color: #B44B9E;
-    color: #fff;
-    display: flex;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    border-radius: 25px;
-    transition-duration: 0.6s;
-    padding: 0 1rem 0 1rem !important;
-  }
-  .search-inp{
-    border-radius: 25px;
-    padding: 0.5rem 3rem 0.5rem 3rem;
-    font-size: 1rem;
-    margin-right: 10px;
-  }
-  .btn-search:hover{
-    background-color: #B44B9E;
-    color:  #4B9EB4;
-    border: 2px solid #fff;
-  }
-  .btn-search i{
-    display: inline;
-    margin-right: 0.5rem;
-  }
-</style>
-
-<nav class="navbar navbar-expand-md border-bottom sticky-top">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">
-      <img src="/logo.png" alt="FriendZone" width="80" height="70">
-    </a>
-
-    <!-- Toggler for Offcanvas -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-      aria-controls="offcanvasNavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- Offcanvas Sidebar -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+<!-- navbar.ejs -->
+<nav class="bg-white shadow-md sticky top-0 z-50 border-b border-gray-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      
+      <!-- Logo Section -->
+      <div class="flex-shrink-0">
+        <a href="/" class="flex items-center space-x-2">
+          <img src="/logo.png" alt="FriendZone" class="h-10 w-auto">
+          <span class="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent hidden sm:inline">FriendZone</span>
+        </a>
       </div>
 
-      <div class="offcanvas-body">
-          <div class="navbar-nav mt-2">
-            <a class="nav-link" href="/posts"><i class="fa-solid fa-house"></i> Home</a>
-          </div>
-          <div class="navbar-nav mt-2">
-              <a class="nav-link" href="/posts/new"><i class="fa-solid fa-square-plus"></i> Post</a>
-          </div>
-           <% if(!currUser) { %>
-          <div class="navbar-nav mt-2">
-              <a class="nav-link" href="/signup"> Signup</a>
-          </div>
-          <div class="navbar-nav mt-2">
-              <a class="nav-link" href="/login"> Login</a>
-          </div>
-          <% } %>
-
-           <% if(currUser) { %>
-          <div class="navbar-nav mt-2 profile-image-div">
-              <a class="nav-link" href="/profile/<%= currUser._id %>">
-                <img src="<%= currUser.image.url %>" alt="profile" class="profile-image">
-                 Profile</a>
-          </div>
-          <div class="navbar-nav mt-2 mb-2">
-              <a class="nav-link position-relative" href="/inbox"><i class="fa-solid fa-message"></i> Messages
-              <% if(isSeen && (isSeen >0)){ %>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+      <!-- Desktop Navigation Links (Hidden on mobile) -->
+      <div class="hidden md:flex items-center space-x-8">
+        <% if(currUser) { %>
+          <a href="/posts" class="text-gray-700 hover:text-purple-600 transition-colors duration-200 flex items-center space-x-2">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+          </a>
+          <a href="/posts/new" class="text-gray-700 hover:text-purple-600 transition-colors duration-200 flex items-center space-x-2">
+            <i class="fa-solid fa-square-plus"></i>
+            <span>Create Post</span>
+          </a>
+          <a href="/inbox" class="text-gray-700 hover:text-purple-600 transition-colors duration-200 flex items-center space-x-2 relative">
+            <i class="fa-solid fa-message"></i>
+            <span>Messages</span>
+            <% if(isSeen && isSeen > 0) { %>
+              <span class="absolute -top-2 -right-3 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 <%= isSeen %>
-                <span class="visually-hidden">unread messages</span>
               </span>
-              <% } %>
+            <% } %>
+          </a>
+        <% } %>
+      </div>
+
+      <!-- Search Bar - Desktop -->
+      <div class="hidden md:block flex-1 max-w-md mx-8">
+        <form action="/posts" method="GET" class="relative">
+          <input 
+            type="search" 
+            name="q" 
+            placeholder="Search posts..." 
+            class="w-full px-4 py-2 pl-10 pr-4 text-sm bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-200 transition-all duration-200"
+          >
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+          <button type="submit" class="absolute right-2 top-1/2 transform -translate-y-1/2 px-3 py-1 text-xs bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors duration-200">
+            Go
+          </button>
+        </form>
+      </div>
+
+      <!-- Right Section - Desktop -->
+      <div class="hidden md:flex items-center space-x-4">
+        <% if(!currUser) { %>
+          <a href="/login" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition-colors duration-200">Login</a>
+          <a href="/signup" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all duration-200 shadow-sm hover:shadow-md">Sign Up</a>
+        <% } else { %>
+          <div class="relative group">
+            <a href="/profile/<%= currUser._id %>" class="flex items-center space-x-2 cursor-pointer">
+              <img 
+                src="<%= currUser.image.url %>" 
+                alt="profile" 
+                class="h-8 w-8 rounded-full object-cover ring-2 ring-purple-200 group-hover:ring-purple-400 transition-all duration-200"
+              >
+              <span class="text-sm text-gray-700 group-hover:text-purple-600"><%= currUser.username %></span>
+              <i class="fa-solid fa-chevron-down text-xs text-gray-400 group-hover:text-purple-600 transition-transform duration-200 group-hover:rotate-180"></i>
+            </a>
+            
+            <!-- Dropdown Menu -->
+            <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border border-gray-100">
+              <a href="/profile/<%= currUser._id %>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200">
+                <i class="fa-solid fa-user mr-2"></i> My Profile
               </a>
+              <a href="/posts" class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200">
+                <i class="fa-solid fa-newspaper mr-2"></i> My Posts
+              </a>
+              <div class="border-t border-gray-100 my-1"></div>
+              <a href="/logout" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200">
+                <i class="fa-solid fa-sign-out-alt mr-2"></i> Logout
+              </a>
+            </div>
           </div>
+        <% } %>
+      </div>
 
-          <% } %>
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden">
+        <button 
+          id="mobile-menu-button"
+          class="text-gray-600 hover:text-purple-600 focus:outline-none transition-colors duration-200"
+        >
+          <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+      </div>
 
-        <!-- Search Form -->
-         <div class="navbar-nav ms-auto">
-          <form class="d-flex" role="search" action="/posts" method="GET">
-            <input class="form-control me-2 search-inp" type="search" placeholder="Search you friend" aria-label="Search" name="q">
-            <button class="btn btn-search" type="submit">
-              <i class="fa-solid fa-magnifying-glass"></i> Search
+    </div>
+  </div>
+
+  <!-- Mobile Sidebar (Slide-out Menu) -->
+  <div 
+    id="mobile-sidebar"
+    class="fixed inset-0 bg-black bg-opacity-50 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden"
+    style="display: none;"
+  >
+    <div class="w-64 bg-white h-full shadow-xl">
+      <!-- Sidebar Header -->
+      <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+        <span class="text-lg font-bold text-purple-600">Menu</span>
+        <button id="close-sidebar" class="text-gray-500 hover:text-gray-700">
+          <i class="fa-solid fa-times text-xl"></i>
+        </button>
+      </div>
+      
+      <!-- Sidebar Content -->
+      <div class="p-4">
+        <!-- Mobile Search -->
+        <form action="/posts" method="GET" class="mb-6">
+          <div class="relative">
+            <input 
+              type="search" 
+              name="q" 
+              placeholder="Search posts..." 
+              class="w-full px-4 py-2 pl-10 pr-20 text-sm bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:border-purple-400"
+            >
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+            <button type="submit" class="absolute right-1 top-1/2 transform -translate-y-1/2 px-3 py-1 text-xs bg-purple-600 text-white rounded-full">
+              Search
             </button>
-          </form>
-        </div>
+          </div>
+        </form>
 
-
+        <!-- Navigation Links -->
+        <% if(currUser) { %>
+          <div class="space-y-3">
+            <a href="/posts" class="flex items-center space-x-3 text-gray-700 hover:text-purple-600 py-2 transition-colors duration-200">
+              <i class="fa-solid fa-house w-5"></i>
+              <span>Home</span>
+            </a>
+            <a href="/posts/new" class="flex items-center space-x-3 text-gray-700 hover:text-purple-600 py-2 transition-colors duration-200">
+              <i class="fa-solid fa-square-plus w-5"></i>
+              <span>Create Post</span>
+            </a>
+            <a href="/inbox" class="flex items-center space-x-3 text-gray-700 hover:text-purple-600 py-2 transition-colors duration-200 relative">
+              <i class="fa-solid fa-message w-5"></i>
+              <span>Messages</span>
+              <% if(isSeen && isSeen > 0) { %>
+                <span class="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
+                  <%= isSeen %>
+                </span>
+              <% } %>
+            </a>
+            <a href="/profile/<%= currUser._id %>" class="flex items-center space-x-3 text-gray-700 hover:text-purple-600 py-2 transition-colors duration-200">
+              <img src="<%= currUser.image.url %>" alt="profile" class="h-5 w-5 rounded-full object-cover">
+              <span>My Profile</span>
+            </a>
+            <div class="border-t border-gray-100 my-3"></div>
+            <a href="/logout" class="flex items-center space-x-3 text-red-600 hover:text-red-700 py-2 transition-colors duration-200">
+              <i class="fa-solid fa-sign-out-alt w-5"></i>
+              <span>Logout</span>
+            </a>
+          </div>
+        <% } else { %>
+          <div class="space-y-3">
+            <a href="/login" class="block px-4 py-2 text-center text-gray-700 hover:text-purple-600 transition-colors duration-200">Login</a>
+            <a href="/signup" style="background-color: #a855f7 !important;" class="block px-4 py-2 text-center bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200">Sign Up</a>
+          </div>
+        <% } %>
       </div>
     </div>
   </div>
 </nav>
+
+<script>
+  // Mobile sidebar functionality
+  const mobileMenuBtn = document.getElementById('mobile-menu-button');
+  const mobileSidebar = document.getElementById('mobile-sidebar');
+  const closeSidebarBtn = document.getElementById('close-sidebar');
+
+  function openSidebar() {
+    mobileSidebar.style.display = 'block';
+    setTimeout(() => {
+      mobileSidebar.style.transform = 'translateX(0)';
+    }, 10);
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSidebar() {
+    mobileSidebar.style.transform = 'translateX(-100%)';
+    setTimeout(() => {
+      mobileSidebar.style.display = 'none';
+      document.body.style.overflow = '';
+    }, 300);
+  }
+
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', openSidebar);
+  }
+  if (closeSidebarBtn) {
+    closeSidebarBtn.addEventListener('click', closeSidebar);
+  }
+
+  // Close sidebar when clicking outside
+  mobileSidebar?.addEventListener('click', (e) => {
+    if (e.target === mobileSidebar) {
+      closeSidebar();
+    }
+  });
+</script>

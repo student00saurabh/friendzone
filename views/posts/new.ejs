@@ -1,24 +1,155 @@
 <% layout("/layouts/boilerplate") -%>
 
-<div class="row mt-4">
-		<div class="col-12 col-md-6 offset-md-3" data-aos="fade-down" data-aos-duration="800">
-			<h3>Create a new Post</h3>
-			<div class="signup-form">
-			<form action="/posts" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
-				<div class="mb-3">
-					<label for="description" class="form-label">Description</label>
-					<textarea type="text" name="post[description]"  class="form-control" required></textarea>
-					<div class="invalid-feedback">
-      					Please enter a short description
-    				</div>
-				</div>
-				<div class="mb-3">
-					<label for="image" class="form-label">Upload Image</label>
-            		<input type="file" name="post[image]" class="form-control" required>
-				</div>
-					<button class="btn btn-dark add-btn prevent-multi-submit">Add</button>
-			</form><br><br>
-			</div>
-		</div>
-	</div>
+<div class="max-w-2xl mx-auto px-4 py-8">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden" data-aos="fade-down" data-aos-duration="800">
+        
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-4">
+            <h3 class="text-xl font-bold text-white flex items-center">
+                <i class="fa-solid fa-square-plus mr-2"></i>
+                Create a New Post
+            </h3>
+        </div>
+        
+        <!-- Form -->
+        <div class="p-6">
+            <form action="/posts" method="POST" enctype="multipart/form-data" novalidate>
+                
+                <!-- Description Field -->
+                <div class="mb-5">
+                    <label for="description" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fa-solid fa-pen mr-1 text-purple-500"></i>
+                        Description
+                    </label>
+                    <textarea 
+                        name="post[description]" 
+                        id="description"
+                        rows="4"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition resize-none"
+                        placeholder="What's on your mind?"
+                        required
+                    ></textarea>
+                    <p class="text-xs text-gray-500 mt-1">
+                        <span id="charCount">0</span>/500 characters
+                    </p>
+                </div>
+                
+                <!-- Image Field -->
+                <div class="mb-5">
+                    <label for="image" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fa-solid fa-image mr-1 text-purple-500"></i>
+                        Upload Image
+                    </label>
+                    
+                    <!-- Image Upload Area -->
+                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-purple-500 transition-colors duration-200">
+                        <div class="space-y-1 text-center">
+                            <i class="fa-solid fa-cloud-upload-alt text-3xl text-gray-400"></i>
+                            <div class="flex text-sm text-gray-600">
+                                <label for="image" class="relative cursor-pointer bg-white rounded-md font-medium text-purple-600 hover:text-purple-500 focus-within:outline-none">
+                                    <span>Upload a file</span>
+                                    <input id="image" name="post[image]" type="file" class="sr-only" accept="image/*" required>
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p class="text-xs text-gray-500">
+                                PNG, JPG, JPEG up to 10MB
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Image Preview -->
+                    <div id="imagePreview" class="hidden mt-3">
+                        <div class="relative inline-block">
+                            <img id="previewImg" class="h-32 w-auto rounded-lg object-cover" alt="Preview">
+                            <button type="button" id="removeImage" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition">
+                                <i class="fa-solid fa-times text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Submit Button -->
+                <button type="submit" class="prevent-multi-submit w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-[1.02]">
+                    <i class="fa-solid fa-plus mr-2"></i>
+                    Create Post
+                </button>
+                
+            </form>
+        </div>
+        
+    </div>
+</div>
 
+<script>
+    // Character counter for description
+    const description = document.getElementById('description');
+    const charCount = document.getElementById('charCount');
+    
+    if (description && charCount) {
+        description.addEventListener('input', function() {
+            const count = this.value.length;
+            charCount.textContent = count;
+            
+            if (count > 500) {
+                this.value = this.value.substring(0, 500);
+                charCount.textContent = 500;
+            }
+            
+            // Change color when approaching limit
+            if (count > 450) {
+                charCount.classList.add('text-red-500');
+                charCount.classList.remove('text-gray-500');
+            } else {
+                charCount.classList.remove('text-red-500');
+                charCount.classList.add('text-gray-500');
+            }
+        });
+    }
+    
+    // Image preview functionality
+    const imageInput = document.getElementById('image');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewImg = document.getElementById('previewImg');
+    const removeImageBtn = document.getElementById('removeImage');
+    
+    if (imageInput) {
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Validate file size (max 10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('File size must be less than 10MB');
+                    this.value = '';
+                    return;
+                }
+                
+                // Validate file type
+                const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Please upload a valid image file (PNG, JPG, JPEG, WEBP)');
+                    this.value = '';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    imagePreview.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.classList.add('hidden');
+            }
+        });
+    }
+    
+    // Remove image preview
+    if (removeImageBtn) {
+        removeImageBtn.addEventListener('click', function() {
+            imageInput.value = '';
+            imagePreview.classList.add('hidden');
+            previewImg.src = '';
+        });
+    }
+</script>
